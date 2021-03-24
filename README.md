@@ -4,7 +4,7 @@
 
 - [yejiniee](https://github.com/yejiniee)
 - [jimin3263](https://github.com/jimin3263)
--[8471919](https://github.com/8471919)
+- [8471919](https://github.com/8471919)
 ### 🎯 목표
 
 - 코틀린 이용해 안드로이드 공부
