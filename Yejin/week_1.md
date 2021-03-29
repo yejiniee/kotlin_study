@@ -157,5 +157,45 @@ var seventhValue=intArray[6]
 var tenthValue=intArray.get(9) // 두 개의 방법이 있다.
 ```
 
+> 컬렉션
+* 컬렉션=동적 배열
+1. 리스트(List): 저장되는 데이터에 인덱스를 부여한 컬렉션. 중복된 값 입력 가능.
+
+* 리스트 생성
+```kotlin
+var list = mutableListOf("MON","TUE","WED")
+```
+
+* 리스트에 값 추가
+```kotlin
+mutableList.add("THU") //값이 추가되면서 동적으로 리스트의 공간이 자동으로 증가.
+```
+
+* 리스트에 입력된 값 사용
+```kotlin
+var variable = mutableList.get(1)
+```
+
+* 리스트 값 수정하기
+```kotlin
+mutableList.set(1,"수정할 값")
+```
+
+* 리스트에 입력된 값 제거하기
+```kotlin
+mutableList.removeAt(1) // <- 두번째 값을 제거하면 세번째 값부터 인덱스가 하나씩 자동으로 감소
+```
+
+* 빈 리스트 사용하기
+```kotlin
+var stringList = mutableListOf<String>()
+```
+
+* 컬렉션 개수 가져오기
+```kotlin
+mutableList.size // 괄호가 없으니 함수가 아니고 '프로퍼티'라고 부른다.
+```
+
+2. 셋(Set)
 
 # 반복문
