@@ -51,7 +51,7 @@ Boolean | true or false
     name = "Hansu"
     ```
   
-  * val : 읽기 전용 변수 (상수랑 비슷)
+  * val : 읽기 전용 변수 (상수랑 비슷)   
         : 값 변경 불가
   
   ```kotlin
@@ -60,8 +60,8 @@ Boolean | true or false
   language = "java"
   ```
   
-  * const : 상수, val 앞에 붙여 사용
-          : 값 변경 불가
+  * const : 상수, val 앞에 붙여 사용   
+          : 값 변경 불가   
           : 기본형(Int, Long 등)과 문자열만 입력가능
    
   ```kotlin
@@ -157,9 +157,116 @@ Boolean | true or false
       }
       ```
       
-      
-      
-      
-      
-      
-      
+# 배열
+
+__index의 시작은 0부터__
+
+
+`var 변수 = 타입Array(개수) //StringArray는 없다.`
+
+* 배열에 값 할당하기
+
+```kotlin
+//문자열 배열의 경우 이렇게 사용한다.
+var stringArray = Array(10, {item->""}) //Array의 크기는 10이고 element들을 빈공간으로 채운다.
+
+//함수 사용 (arrayOf)
+var dayArray = arrayOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+```
+
+* 배열에 값 입력, 수정
+    1. 배열명[idx] = element
+    2. 배열명.set(idx, element) // set함수 사용
+
+
+* 배열에 있는 값 꺼내기
+    1. 배열명[idx]
+    2. 배열명.get(idx) // get함수 사용
+     
+# 컬렉션
+
+1. 리스트
+2. 맵
+3. 셋
+
+`mutable : 변할 수 있는, immutable : 변할 수 없는`
+
+기본 함수 | 기능 | 적용가능 컬렉션
+--------|-------|-------
+add | 값 추가 | list, set
+get | 값 사용 | list, map
+set | 값 수정 | list, 
+removeAt | idx 삭제| list
+remove | 값 삭제 | set, map(list도 될듯?)
+put | 키, 값 추가 | map
+
+
+
+
+* 리스트(List) : 동적 배열이라고 생각하자. 중복허용
+```kotlin
+//리스트 생성
+var mutableList = mutableListOf("Mon", "Tue", "Wed")
+//값 추가, 리스트의 크기가 하나 증가하고 값이 추가된다.
+mutableList.add("Thu")
+//값 사용(get(idx))
+var a = mutableList.get(1)
+//값 수정(set)
+mutableList.set(1, "수정할 값")
+//값 제거(인덱스), 해당 인덱스가 없어지고 뒤의 인덱스들이 한 칸씩 앞으로 간다.
+mutableList.removeAt(idx)
+//빈 리스트
+//var 변수명 = mutableListOf<element의 타입>()
+var stringList = mutableListOf<String>()
+//컬렉션 개수 가져오기
+mutableList.size  // size는 함수가 아닌 프로퍼티이다. (괄호가 필요없기때문)
+```
+
+* 셋(Set) : 종복을 허용하지 않는 동적 배열
+
+```kotlin
+//빈 셋 생성
+var set = mutableSetOf<String>()
+//값 추가
+set.add("JAN")
+set.add("FEB")
+set.add("JAN") // 중복 -> 입력되지 않는다.
+//셋 사용, 인덱스로 조회 불가, 셋을 통째로 출력
+Log.d("Collection", "Set 전체 출력 = ${Set}")
+//값 삭제
+set.remove("FEB")
+```
+
+* 맵(Map) : `Key : Value` 로 이루어짐.  
+          : Key = index로 보자.  
+          : 동적 배열이라고 생각하자.
+
+
+```kotlin
+//맵 생성
+var map = mutableMapOf<String, String>()
+//키, 값 추가
+map.put("zl", "rkqt")
+```
+__put 사용시 동일한 키를 가진 값이 있으면 해당하는 키의 값만 수정
+
+```kotlin
+//값 사용
+map.get("키") //로 값을 꺼낼 수 있다.
+//키 삭제
+map.remove("키")
+```
+
+* Immutable Collection
+    + 입력된 값 변경 불가능
+    + 수정, 추가, 제거 불가능
+    
+    ```kotlin
+    val IMMUTABLE_LIST = listOf("Jan", "Feb", "Mar")
+    //get을 사용해서 값 사용
+    ```
+    
+# 반복문
+
+
+
