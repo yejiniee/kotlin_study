@@ -127,6 +127,25 @@ when (geOfMichael){
 }
 </code>
 </pre>
+
+* 파라미터 없는 when 사용하기
+<pre>
+<code>
+var currentTime=6
+when {
+        currentTime==5->{
+                Log.d("when","현재 시간은 5시입니다.")
+        }
+        currentTime>5->{
+                Log.d("when","현재 시간은 5시가 넘었습니다.")
+        }
+        else->{
+                Log.d("when","현재 시간은 5시 이전입니다.")
+        }
+}
+</code>
+</pre>
+
 # 배열과 컬렉션
 
 
