@@ -248,7 +248,7 @@ var map = mutableMapOf<String, String>()
 //키, 값 추가
 map.put("zl", "rkqt")
 ```
-__put 사용시 동일한 키를 가진 값이 있으면 해당하는 키의 값만 수정
+__put 사용시 동일한 키를 가진 값이 있으면 해당하는 키의 값만 수정__
 
 ```kotlin
 //값 사용
