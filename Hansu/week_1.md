@@ -1,6 +1,6 @@
 
 
-* __'Android Studio'로 실습시 MainActivity.kt 파일에 override fun onCreate 함수 밑에 코드를 작성할 것__
+__'Android Studio'로 실습시 MainActivity.kt 파일에 override fun onCreate 함수 밑에 코드를 작성할 것__
 
 
 # 로그와 로그캣
@@ -63,8 +63,36 @@ Boolean | true or false
   const val PI = 3.141592
   ```
   
-  
-  
+# ☆☆☆ 컨벤션 ☆☆☆
+
+* 컨벤션(Convention) : 코드를 작성하는 규칙 ex)prettier
+
+* Camel Case
+    + 클래스명 : 첫글자, 새로운 단어의 첫글자를 대문자로 한다.
+    ```kotlin
+    class MainActivity
+    ```
+
+    + 함수, 변수명 : 첫글자는 소문자, 새로운 단어의 첫글자는 대문자로 한다.
+    ```kotlin
+    fun onCreateActivity()
+    var intValue: Int
+    ```
+
+    + 상수명 : 모두 대문자로 작성한다. (val은 상수가 아니다)
+    ```kotlin
+    const val HELLO: String = "안녕"
+    //snake case
+    const val HOW_ARE_YOU: String = "어떻게 지내?"
+    ```
+
+* Snake case
+    + underbar(\_)를 이용하여 가독성이 좋다
+    + 상수명만 대문자를 사용, 나머지는 소문자
+    ```kotlin
+    fun on_create_activity()
+    ```
+ 
   
   
   
