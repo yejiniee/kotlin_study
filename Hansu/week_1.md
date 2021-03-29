@@ -17,9 +17,12 @@ __'Android Studio'로 실습시 MainActivity.kt 파일에 override fun onCreate 
  Log.e() | error | 에러 메세지 전달
  
  ```kotlin
+ //import android.util.Log 필요
  Log.d("Tag", "Message")
  ```
 # 자료형
+
+* 자동타입추론
 
 데이터 타입 | 설명
 -----------|-----
@@ -35,6 +38,8 @@ Boolean | true or false
 
  
 # 변수 
+
+ * 사용법 : Double quote(") 안에 ${변수}를 넣어서 사용
 
   * var : 값 재할당 가능 
     
@@ -92,7 +97,69 @@ Boolean | true or false
     ```kotlin
     fun on_create_activity()
     ```
+
+# 조건문
  
+ 1. if : 범위가 넓고, 값을 특정할 수 없을 때    ex)연도
+ 2. when : 범위가 제한되고 값을 특정할 수 있을 때    ex)요일
+ 
+ * 변수if문
+     + if의 마지막 줄의 값이 변수에 할당됨
+     ```kotlin
+     var a = 5
+     var b = 3
+     var bigger = if (a > b) {
+         var c = 30
+         a //마지막 값
+     } else {
+         b //마지막 값
+     }
+     //a나 b가 bigger에 저장, (a > b) == true 이므로 bigger = a
+     Log.d(tag, "Bigger is ${bigger}")
+     //결과 : Bigger is 5
+    ```
   
+  * when : switch와 비슷
   
+  ```kotlin
+  when (parameter) {
+      비교값1 -> {} //한 줄일 경우 중괄호는 없어도 됨
+      비교값2 -> {}
+      ...
+      else -> {} //switch의 default랑 비슷
+  }
+  ```
   
+   + 콤마로 구분해서 사용
+      
+      ```kotlin
+      when (now) {
+          8, 9 -> Log.d(tag, "현재 시간은 8시 또는 9시입니다.")
+          else -> Log.d(tag, "현재 시간은 9시가 아닙니다.")
+      }
+      ```
+      
+      + 범위 값 비교
+      
+      ```kotlin
+      when (age) {
+          in 10..19 -> Log.d("when", "10대입니다.") // age가 10이상 19이하
+          !in 10..19 -> Log.d("when", "10대가 아닙니다.")
+          else -> Log.d("when", "나이를 알 수 없습니다.") // 실수 값을 받지 않은 경우
+      }
+      ```
+      + non-parameter
+      
+      ```kotlin
+      when {
+          time == 5 -> Log.d("when", "현재시간은 5시입니다.")
+          time > 5 -> Log.d("when", "현재시간은 5시가 넘었습니다.")
+      }
+      ```
+      
+      
+      
+      
+      
+      
+      
