@@ -14,32 +14,24 @@
 
 * 변수선언
 
-<pre>
-<code>
+```kotlin
 var myName="조예진"
-</code>
-</pre>
+```
 
-<pre>
-<code>
+```kotlin
 var myAge : Int
 myAge=27 
-</code>
-</pre>
+```
 
 # 상수 val
 * 상수선언
-<pre>
-<code>
+```kotlin
 val PI=3.141592F
-</code>
-</pre>
+```
 
-<pre>
-<code>
+```kotlin
 val HELLO: String ="안녕"
-</code>
-</pre>
+```
 
 # 조건문 if와 when
 * if문 : 범위를 한정할 수 없고 개수가 많을 때 사용
@@ -47,8 +39,7 @@ val HELLO: String ="안녕"
 
 > if
 * 기본
-<pre>
-<code>
+```kotlin
 var ball=4
         if(ball>3){
             Log.d("ControlFlow","4볼로 출루합니다.")
@@ -56,33 +47,27 @@ var ball=4
         else{
             Log.d("ControlFlow","타석에서 다음 타구를 기다립니다.")
         }
-</code>
-</pre>
+```
 
 * 변수에 직접 if문 사용하기
-<pre>
-<code>
+```kotlin
 var a=5
 var b=3
 var bigger= if(a>b) a else b
-</code>
-</pre>
+```
 
 * if문 마지막 값을 반환값으로 사용하기
-<pre>
-<code>
+```kotlin
 var a=5
 var b=3
 var bigger= if(a>b){
   a=a-b
   a} //마지막 줄의 a 값이 변수 bigger에 저장된다.
-</code>
-</pre>
+```
 
 > when 
 * 기본
-<pre>
-<code>
+```kotlin
 var now=10
 when (now) {
         8->{
@@ -95,12 +80,10 @@ when (now) {
                 Log.d("when". "현재 시간은 9시가 아닙니다.")
         }
 }        
-</code>
-</pre>     
+```   
 
 * 콤마로 구분해서 사용하기
-<pre>
-<code>
+```kotlin
 var now=10
 when (now) {
         8, 9->{
@@ -110,8 +93,7 @@ when (now) {
                 Log.d("when". "현재 시간은 9시가 아닙니다.")
         }
 }
-</code>
-</pre> 
+```
 
 * 범위값을 비교하기
 ```kotlin
