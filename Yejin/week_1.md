@@ -43,6 +43,40 @@ val HELLO: String ="안녕"
 
 # 조건문
 
+* 기본
+<pre>
+<code>
+var ball=4
+        if(ball>3){
+            Log.d("ControlFlow","4볼로 출루합니다.")
+        }
+        else{
+            Log.d("ControlFlow","타석에서 다음 타구를 기다립니다.")
+        }
+</code>
+</pre>
+
+* 변수에 직접 if문 사용하기
+<pre>
+<code>
+var a=5
+var b=3
+var bigger= if(a>b) a else b
+</code>
+</pre>
+
+* if문 마지막 값을 반환값으로 사용하기
+<pre>
+<code>
+var a=5
+var b=3
+var bigger= if(a>b){
+  a=a-b
+  a} //마지막 줄의 a 값이 변수 bigger에 저장된다.
+</code>
+</pre>
+
 # 배열과 컬렉션
+
 
 # 반복문
