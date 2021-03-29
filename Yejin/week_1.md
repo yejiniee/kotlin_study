@@ -114,8 +114,7 @@ when (now) {
 </pre> 
 
 * 범위값을 비교하기
-<pre>
-<code>
+```kotlin
 var ageOfMichael=19
 when (geOfMichael){
         in 10...19->{
@@ -128,12 +127,10 @@ when (geOfMichael){
                 Log.d("when","마이클의 나이를 알 수 없습니다.")
         }
 }
-</code>
-</pre>
+```
 
 * 파라미터 없는 when 사용하기
-<pre>
-<code>
+```kotlin
 var currentTime=6
 when {
         currentTime==5->{
@@ -146,8 +143,7 @@ when {
                 Log.d("when","현재 시간은 5시 이전입니다.")
         }
 }
-</code>
-</pre>
+```
 
 # 배열과 컬렉션
 
