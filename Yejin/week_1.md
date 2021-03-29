@@ -95,7 +95,7 @@ when (now) {
 </code>
 </pre>     
 
-* 범위값을 비교하기
+* 콤마로 구분해서 사용하기
 <pre>
 <code>
 var now=10
@@ -110,7 +110,7 @@ when (now) {
 </code>
 </pre> 
 
-* 콤마로 구분해서 사용하기
+* 범위값을 비교하기
 <pre>
 <code>
 var ageOfMichael=19
