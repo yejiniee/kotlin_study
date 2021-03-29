@@ -125,7 +125,7 @@ when {
                 Log.d("when","현재 시간은 5시 이전입니다.")
         }
 }
-```
+```   
 
 # 배열과 컬렉션
 > 배열
@@ -158,7 +158,7 @@ var tenthValue=intArray.get(9) // 두 개의 방법이 있다.
 ```
 
 > 컬렉션
--컬렉션=동적 배열
+- 컬렉션=동적 배열
 1. 리스트(List): 저장되는 데이터에 인덱스를 부여한 컬렉션. 중복된 값 입력 가능.
 
 -리스트 생성
@@ -196,6 +196,65 @@ var stringList = mutableListOf<String>()
 mutableList.size // 괄호가 없으니 함수가 아니고 '프로퍼티'라고 부른다.
 ```
 
-2. 셋(Set)
+2. 셋(Set) : 중복을 허용하지 않는 리스트, 인덱스로 조회할 수 없고 get함수도 없다.
+
+-셋 선언
+```kotlin
+var set = mutableSetOf<String>()
+```
+
+-빈 셋으로 초기화하고 값 입력하기
+```kotlin
+set = mutableSetOf<String>()
+set.add("JAN")
+set.add("FEB")
+set.add("FEB") //동일한 값은 입력되지 않는다.
+```
+
+-셋 사용하기
+```kotlin
+Log.d("Collection","Set 전체출력 =$(set)")
+```
+
+-셋 삭제하기
+```kotliset
+set.remove("FEB") //리스트는 인덱스를 이용해 삭제하지만, 셋은 값을 직접 조회해서 삭제한다.
+```
+
+3. 맵(Map): Key 와 Value 쌍으로 입력되는 컬렉션.
+-맵 생성하기
+```kotlin
+var map= mutableMapOf<String,String>()
+```
+
+-값 추가하기
+```kotlin
+map.put("키1","값1")
+map.put("키2","값2")
+```
+
+-맵 사용하기
+```kotlin
+Log.d("CollectionMap","map에 입력된 키1의 값은 &{map.get("키1")입니다."}
+```
+
+-맵 수정하기
+```kotlin
+ㅡmap.put("키2","수정") //키는 유지된 채로 그 값만 변한다.
+```
+
+-맵 삭제하기
+```kotlin
+ㅡmap.remove("키2")
+```
+
+>이뮤터블 컬렉션
+- 이뮤터블 컬렉션: 크기와 값을 변경할 수 없음.  add, set 함수 지원x. 기존의 컬렉션에서 접두어 mutable만 제거하고 사용.
+
+```kotlin
+val IMMUTALE_LIST = listOf("JAN", "FEB", "MAR") //생성
+Log.d("Collection", "리스트의 두번째 값은 ${IMMUTALE_LIST.get(1)}입니다.")
+```
+
 
 # 반복문
