@@ -26,3 +26,19 @@ var myAge : Int
 myAge=27 
 </code>
 </pre>
+
+# 상수 val
+* 상수선언
+<pre>
+<code>
+val PI=3.141592F
+</code>
+</pre>
+
+<pre>
+<code>
+val HELLO: String ="안녕"
+</code>
+</pre>
+
+# 조건문
