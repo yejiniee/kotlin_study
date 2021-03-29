@@ -128,6 +128,34 @@ when {
 ```
 
 # 배열과 컬렉션
+> 배열
+* 배열선언
+```kotlin
+var students=IntArray(10)
+var longArray=LongArray(10) //Int, Double과 같은 기본 타입 뒤에 Array를 붙여서 만든다.
+```
+
+* 문자 배열에 빈 공간 할당
+```kotlin
+var stringArray=Array(10,{item->""})
+```
+
+* 값으로 배열 공간 할당
+```kotlin
+var dayArray=arrayOf("MON", "TUE","WED","THU","FRI","SAT","SUN")
+```
+
+* 배열에 값 입력하기
+```kotlin
+student[0]=90
+student.set(1,91) // 두 개의 방법이 있다.
+```
+
+* 배열에서 값 꺼내기
+```kotlin
+var seventhValue=intArray[6]
+var tenthValue=intArray.get(9) // 두 개의 방법이 있다.
+```
 
 
 # 반복문
