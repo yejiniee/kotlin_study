@@ -197,7 +197,7 @@ add | 값 추가 | list, set
 get | 값 사용 | list, map
 set | 값 수정 | list, 
 removeAt | idx 삭제| list
-remove | 값 삭제 | set, map(list도 될듯?)
+remove | 값 삭제 | list, set, map
 put | 키, 값 추가 | map
 
 
@@ -268,5 +268,43 @@ map.remove("키")
     
 # 반복문
 
+ * for
+ ```kotlin
+ //for (변수 in 시작 값..종료 값)
+ for (index in 1..10) {
+     Log.d(tag, "현재 숫자는 ${index})
+ }
+ //마지막 숫자 제외 (until)
+ for (idx in 1 until 10) //10은 출력x
+ //건너뛰기 (step)
+ for (idx in 1..10 step 3) //idx의 값을 3씩 증가 시킴
+ //감소 (downTo)
+ for (idx in 10 downTo 0) // 10부터 0까지 출력
+ //배열, 컬렉션
+ for (month in arrayMonth) // arrayMonth에 있는 element들을 idx 0부터 출력
+ ```
 
+ * while
+ 
+ `while (조건식) {}`
+ 
+ * do while  
+ : 한 번은 무조건 실행
+ `do { ... } while(조건식)`
+
+# 반복문 제어
+
+ * break : 반복문 탈출
+ * continue : 다음 반복문으로 건너뛰기
+     + label@ 을 통해 jump 할 수 있음
+     
+     ```kotlin
+     loop@for(i in 1..10) {
+             for(j in 1..10) {
+                 if (i == 1 && j == 2) break @loop
+             }
+         }
+     ```
+     
+ 
 
