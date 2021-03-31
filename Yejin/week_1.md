@@ -258,3 +258,22 @@ Log.d("Collection", "리스트의 두번째 값은 ${IMMUTALE_LIST.get(1)}입니
 
 
 # 반복문
+>for문
+
+```kotlin
+for (index in 1...10){ //1부터 10까지
+        Log.d("For", "현재 숫자는 $(index)")
+}
+
+
+var array = arrayOf("JAN", 'FEB", "MAR", "APR", "MAY", "JUN")
+for (index in 0 until array.size){ //array.size=6 -> 0부터 5까지 
+        Log.d("For", "현재 월은 ${array.get(index)}입니다.")
+}
+```
+
+
+
+
+>while문
+
