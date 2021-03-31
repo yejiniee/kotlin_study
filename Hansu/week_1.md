@@ -274,14 +274,14 @@ map.remove("키")
  for (index in 1..10) {
      Log.d(tag, "현재 숫자는 ${index})
  }
- //마지막 숫자 제외 (until)
- for (idx in 1 until 10) //10은 출력x
- //건너뛰기 (step)
- for (idx in 1..10 step 3) //idx의 값을 3씩 증가 시킴
- //감소 (downTo)
- for (idx in 10 downTo 0) // 10부터 0까지 출력
- //배열, 컬렉션
- for (month in arrayMonth) // arrayMonth에 있는 element들을 idx 0부터 출력
+ //마지막 숫자 제외 (until), 10은 출력x
+ for (idx in 1 until 10)
+ //건너뛰기 (step), idx의 값을 3씩 증가 시킴
+ for (idx in 1..10 step 3)
+ //감소 (downTo), 10부터 0까지 출력
+ for (idx in 10 downTo 0)
+ //배열, 컬렉션, arrayMonth에 있는 element들을 idx 0부터 출력
+ for (month in arrayMonth)
  ```
 
  * while
