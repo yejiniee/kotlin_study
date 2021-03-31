@@ -199,3 +199,27 @@ for (month in arrayMonth){
   Log.d("for","현재 월은 ${month}")
 }
 ```
+
+> while
+```kotlin
+//do while 경우 조건 상관없이 일단 한번 실행됨 
+
+//while 문
+var game =6 
+val match =6
+while(game < match){
+  Lod.d("while", "while 테스트")
+  game+=1
+}
+
+//do - while 문
+do {
+  Log.d("while","do ~ while 테스트")
+  game+=1
+} while(game<match)
+
+```
+> 반복문 제어
+
+- break: 반복문 탈출
+- continue: 다음 반복문으로
