@@ -235,7 +235,7 @@ map.put("키2","값2")
 
 -맵 사용하기
 ```kotlin
-Log.d("CollectionMap","map에 입력된 키1의 값은 &{map.get("키1")입니다."}
+Log.d("CollectionMap","map에 입력된 키1의 값은 ${map.get("키1")입니다."}
 ```
 
 -맵 수정하기
@@ -270,10 +270,56 @@ var array = arrayOf("JAN", 'FEB", "MAR", "APR", "MAY", "JUN")
 for (index in 0 until array.size){ //array.size=6 -> 0부터 5까지 
         Log.d("For", "현재 월은 ${array.get(index)}입니다.")
 }
+
+for (index in 0...100 step 3){ //3씩 건너뛴다
+        Log.d("For", "현재 숫자는 ${index}")
+}
+
+for(index in 10 downTo 0){ //10에서부터 0까지 1씩 작아진다 
+        Log.d("For", "현재 숫자는 ${index}")
+}
+
+var arrayMonth=arrayOf("JAN", "FEB", "MAR", "APR", "MAY", "JUN")
+for(month in arrayMonth){
+        Log.d("For", "현재 월은 ${month}입니다.")
+
 ```
 
 
+> while문
 
+```kotlin
+var current =1 
+var until =12
+while(current<until){
+        Log.d("while", "현재 값은 ${current}입니다.")
+        current+=1
+}
 
->while문
+//do-while
+var game =1
+val match =6
+do{
+        Log.d("while", "${game}게임 이겼습니다. 우승까지 ${match-game}게임 남았습니다.")
+        game+=1
+}while(game<match)
+```
 
+> 반복문 제어하기
+
+```kotlin
+//break
+for (index in 1...10){
+        Log.d("break", ""현재 index는 $index 입니다.")
+        if(index>5){
+                break
+        }
+}
+
+//continue
+for(except in 1...10){
+        if(except>3 && except <8{
+                continue
+        }
+        Log.d("continue", "현재 index는 $except 입니다."
+```
