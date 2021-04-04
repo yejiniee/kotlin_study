@@ -1,6 +1,6 @@
 # kotlin_study
 
-### 🙋‍♀️ Contributer
+### 🙋‍♀️ Contributor
 
 - [yejiniee](https://github.com/yejiniee)
 - [jimin3263](https://github.com/jimin3263)
