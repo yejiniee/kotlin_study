@@ -235,25 +235,95 @@ class Pig {
 ```  
   
 # 설계
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+* 파일을 분류하고, 이름을 짓고, 디렉터리에 모아 놓는 것 모두 설계
+* 객체지향 프로그래밍 = 구현(실제 로직을 갖는코딩) + 설계(껍데기만 있는 코딩)
+
+## 패키지
+
+* 패키지는 클래스와 소스파일을 관리하기 위한 디렉터리 구조의 저장 공간
+* 서브디렉터리 안에 실제 클래스.kt 파일이 있다
+* 관계가 있는 파일을 동일한 패키지에 만들어두면 관리 용이
+
+```kotlin
+package 메인디렉터리.서브디렉터리.서브디렉터리2
+class 클래스명 { ... }
+```
+
+## 추상화
+
+* 설계단계에서 클래스의 이름과 클래스 안에 있음 직한 기능을 유추해서 나열
+* 구현 클래스는 이 추상 클래스를 __상속__ 받아서 추상화 기능을 '모두' 구현해주어야함
+* abstract 키워드 사용
+
+```kotlin
+//설계
+abstract class Animal {
+  fun walk() {
+    Log.d(tag, "걷습니다.")
+  }
+  abstract fun move()
+}
+//구현
+class Bird: Animal() {
+  override fun move() {
+    Log.d(tag, "날아서 이동합니다.")
+  }
+}
+```
+
+## 인터페이스
+
+* 실행 코드 없이 메서드 이름만 가진 추상 클래스
+* 즉, 실행 코드가 한 줄이라도 있으면 추상화, 코드 없이 메서드 이름만 나열되어 있으면 인터페이스
+* 상속 관계의 설계보다는 __외부 모듈에서 내가 만든 모듈을 사용할 수 있도록__ 메서드의 이름을 나열해둔 일종의 명세서 개념
+
+```kotlin
+interface InterfaceKotlin {  //class 키워드는 사용되지 않는다.
+  var variable: String  //코틀린에서'만' 프로퍼티를 인터페이스 내부에서 정의할 수 있다.
+  fun get()  //인터페이스의 프로퍼티와 메서드 앞에는 abstract가 생략되어 있다.
+  fun set()
+}
+```
+
+* 구현시 생성자를 호출하지 않아도 됨.
+
+```kotlin
+//상속으로 구현
+class KotlinImpl: InterfaceKotlin {
+  override var variable: String = "init value"
+  override fun get() { ... }
+  override fun set() { ... }
+}
+//상속 형태가 아닌 직접 구현, object사용
+var kotlinImpl = object: InterfaceKotlin {
+  override var variable: String = "init"
+  override fun get() { ... }
+  override fun set() { ... }
+} //실제로 자주 사용하는 형태 
+```
+* 안드로이드가 봤을 때 개발자가 만드는 모듈은 외부모듈이기 때문에 인터페이스를 자주 사용한다.
+* 인터페이스를 남용하면 코드의 가독성과 구현 효율성이 떨이잔다.
+
+## 접근 제한자
+
+접근 제한자 | 제한 범위
+:---------:| ---------
+private    | 다른 파일에서 접근x
+internal   | 같은 모듈에 있는 파일만 접근가능
+protected  | private와 같으나 자식 클래스가 접근가능
+public     | 모든 파일에서 접근가능
+
+
+
+
+
+
+
+
+
+
+
+
+
+
