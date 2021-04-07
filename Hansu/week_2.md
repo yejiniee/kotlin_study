@@ -468,3 +468,65 @@ class Company {
   2. lazy로 선언된 변수가 최초 호출되는 시점에 by lazy{} 안에 넣은 값으로 초기화됨
   3. 초기화 하는데 사용하는 리소스가 너무 크면(메모리사용량이 크거나 코드가 복잡할 경우) 전체 처리 속도에 영향을 미칠 수 있다.
   4. 따라서 복잡한 코드를 가지고 있는 클래스라면 미리 초기화해 놓고 사용 하는 것이 좋다.
+
+# 스코프 함수
+
+* 코드를 축약해서 표현할 수 있도록 도와주는 함수, 기본 제공 함수
+* run, let, apply, also, with
+
+### run, let
+
+* 인스턴스 값을 this나 it으로 사용
+
+* run : run의 마지막 구문의 결과 값 반환, 스코프 함수 내에서 호출한 대상을 this로 사용할 수 있다.
+
+```kotlin
+var list = mutableListOf("Scope", "Function")
+list.run {
+  val listSize = size //this를 생략한 채 프로퍼티 size를 바로 호출할 수 있다.
+  println("리스트의 길이 run = $listSize")  // 마지막 구분의 결과값 반환. 즉, list.run을 실행시키면 println내의 문장이 출력된다.
+}
+```
+
+* let : let의 마지막 구문의 결과 값 반환, 스코프 함수 내에서 호출한 대상을 it으로 사용할 수 있다.
+
+```kotlin
+var list = mutableListOf("Scope", "Function")
+list.let {
+  val listSize = it.size  // it는 생략할 수 없지만, target 등으로 바꿀 수 있다.
+  println("리스트의 길이 let = $listSize")
+}
+```
+* apply 와 run은 이미 인스턴스가 만들어진 후에 인스턴스의 함수나 속성을 사용해야할 때 유용하다.
+* also 와 let은 같은 이름의 변수, 함수가 스코프 바깥에 중복되어 있는 경우. 혼란을 방지하기 위해 사용한다.
+
+
+스코프함수 | 특징 | 사용 예
+----------|-------|----------
+apply     | 인스턴스 반환, this로 사용 | a.apply
+run       | 마지막 구분의 결과 값 반환, this로 사용 | a.run
+with      | run과 동일, 인스턴스를 참조연산자(.)대신 파라미터로 받음 | with(a)
+also      | 인스턴스 반환, it으로 사용 | a.also
+let       | 마지막 구분의 결과 값 반환, it으로 사용 | a.let
+
+* with는 확장함수(extension)가 아니기 때문에 null호출시 사용 안하는게 좋다. ex) target?.apply { ... }
+
+ ```kotlin
+ var list = mutableListOf("Scope", "Function")
+ list.apply {
+  val listSize = size
+  println("리스트의 길이 apply = $listSize")
+}
+with(list) {
+  val listSize = size
+  println("리스트의 길이 with = $listSize")
+}
+list.also {
+  val listSize = it.size // 또는 target.size와 같은 다른 이름 사용가능
+  println("리스트의 길이 with = $listSize")
+}
+```
+
+
+
+
