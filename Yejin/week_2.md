@@ -78,9 +78,74 @@ class KotlinFour {
   }
 } 
 
-///companion object 코드불록 안의 프로퍼티와 메소드는 클래스명에 도트를 붙여서 생성자 없이 직접 호출가능
+///companion object 코드불록 안의 프로퍼티와 메소드는 "클래스명"에 도트를 붙여서 생성자 없이 직접 호출가능
 KotlinFour.one="새로운 값"
 KotlinFour.printOne()
 ```
 
+* 데이터 클래스
 
+```kotlin
+data class DataUser (var name: String, var age: Int) //데이터클래스 생성
+var dataUser = DataUser("Michael",22)
+Log.d("DataClass", "DataUser는 ${dataUser.toString()}") //DataUser는 DataUser(name=Michael, age=22)
+
+var newData= dataUser.copy() //값 복사
+```
+
+* 클래스의 상속
+-상속 대상이 되는 부모 클래스는 open 키워드로 만들어야만 자식 클래스에서 사용할 수 있다.
+```kotlin
+open class Parent {
+  var hello: String="안녕하세여"
+  fun sayHello() {
+    Log.d("inheritance", "${hello}")
+  }
+}
+
+class Child : Parent() {
+  fun myHello() {
+    hello = "Hello!"
+    sayHello() // 부모클래스에서 상속받은 메서드
+  }
+}
+
+//부모 클래스의 세컨더리 생성자를 이용하는 경우는 부모 클래스명 다음에 오는 괄호 생략, super() 사용
+class CustomView : View { // View클래스를 상속받는 예제
+  constructor(ctx: Context): super(ctx)
+  constructor(ctx: Context, attrs: AttributeSet): super(ctx, attrs)
+}
+
+//오버라이드: 프로퍼티와 메서드의 재정의, 오버라이드 할 때는 프로퍼티나 메서드도 클래스처럼 앞에 open을 붙여야한다.
+
+//메서드 오버라이드
+open class BaseClass {
+  open var opened: String = "I am"
+  open fun opened() {
+  }
+  fun notOpened{
+  }
+}
+
+class ChildClass: BaseClass() {
+  override var opened: String = "You are"
+  override fun opened() {
+  }
+  //fun notOpened()는 오버라이드 불가능
+}
+
+//익스텐션: 미리 만들어져있는 클래스에 메서드를 붙여넣는다.
+class MyClass{
+  fun say()
+  fun walk()
+  fun eat()
+}
+
+fun Myclass.sleep(){
+  //코드
+}
+
+
+
+```
+---->p. 168까지
