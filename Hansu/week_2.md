@@ -404,6 +404,67 @@ fun testElvis(str: String?): Int {
 }
 ```
 
+# 지연 초기화
 
+* 클래스 코드의 Nullable 처리가 남용되는 것을 방지
+* lateinit, lazy
 
+### lateinit
 
+* 변수만 Nullable로 미리 선언하고 초기화를 나중에 해야 하는 경우 사용
+
+```kotlin
+//이 방식은 Safe Call이 남용되어 가독성을 떨어뜨림
+class Person {
+  var name: String? = null
+  init {
+    name = "Lionel"
+  }
+  fun process() {
+    name?.plus("Messi")
+    print("이름의 길이 = ${name?.length}")
+    print("이름의 첫 글자 = ${name?.substring(0,1)}")
+  }
+}
+//lateinit사용
+class Person {
+  lateinit var name: String
+  init {
+    name = "Lionel"
+  }
+  fun process() {
+    name.plus("Messi")
+    print("이름의 길이 = ${name.length}")
+    print("이름의 첫 글자 = ${name.substring(0,1)}")
+  }
+}
+```
+
+* lateinit의 특징
+  1. var로 선언된 프러퍼티에만 사용가능
+  2. null은 허용x
+  3. 기본 자료형 Int,Long,Double,Float 등은 사용불가
+  4. 변수를 미리 선언만 해 놓은 방식이기 때문에 초기화되지 않은 상태에서 메서드나 프로퍼티 참조시 null 예외가 발생하여 종료됨
+  5. 따라서 변수가 초기화되지 않는 상황이 발생할 수 있다면 Nullable이나 빈 값으로 초기화하는 것이 좋음
+ 
+### lazy
+
+* val을 사용하는 지연 초기화, 값 변경 불가능
+
+```kotlin
+class Company {
+  val person: Person by lazy { Person() }
+  init {
+    // lazy는 선언시 초기화를 하기 때문에 초기화 과정이 필요없다.
+  }
+  fun process() {
+    print("person의 이름은 ${person.name}") //최초 호출하는 시점에 초기화
+  }
+}
+```
+
+* lazy의 특징
+  1. 선언 시 초기화 코드를 작성하기 때문에 따로 초기화할 필요x
+  2. lazy로 선언된 변수가 최초 호출되는 시점에 by lazy{} 안에 넣은 값으로 초기화됨
+  3. 초기화 하는데 사용하는 리소스가 너무 크면(메모리사용량이 크거나 코드가 복잡할 경우) 전체 처리 속도에 영향을 미칠 수 있다.
+  4. 따라서 복잡한 코드를 가지고 있는 클래스라면 미리 초기화해 놓고 사용 하는 것이 좋다.
