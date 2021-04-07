@@ -314,15 +314,95 @@ internal   | 같은 모듈에 있는 파일만 접근가능
 protected  | private와 같으나 자식 클래스가 접근가능
 public     | 모든 파일에서 접근가능
 
+* 코틀린에서 모듈이란 한 번에 같이 컴파일되는 모든 파일을 말한다. 즉 하나의 앱이나 라이브러리를 말한다.
 
+```kotlin
+open class Parent {
+  private val privateVal = 1
+  protected open val protectedVal = 2
+  internal val internalVal = 3
+  val defaultVal = 4
+}
+//상속
+class Child: Parent() {
+  fun callVariables() {
+    //privateVal은 호출 불가
+    //protected, internal, default는 호출 가능
+  }
+}
+//상속관계가 아닌 외부 클래스에서 사용시 public과 internal만 사용 가능하다
+```
 
+## 제네릭(Generics)
 
+* 입력되는 값의 타입을 자유롭게 사용하기 위한 설계 도구
+* 보통 T부터 U,V,W 순으로 쓴다.
 
+```kotlin
+public interface MutableList<E> {
+  var list Array<E>
+}
 
+var list: MutableList<제네릭> = mutableListOf("월", "화", "수")
 
+fun testGenerics() {
+  var list: MutableList<String> = mutableListOf()
+  list.add("월")
+  list.add("화")
+  list.add("수")
+  for (item in list) {
+    Log.d(tag, "list에 입력된 값은 ${item}입니다.")
+  }
+}
+```
 
+# Null Safety
 
+* Kotlin은 Null에 대해서 안전한 언어
 
+### nullable
+
+* 타입 뒤에 ? 를 붙힌다.
+
+```kotlin
+var nullable: String? // ?를 붙이지않으면 오류
+nullable = null
+```
+
+* null 허용 설정
+
+```kotlin
+fun nullParameter(str: String?) {
+  if (str != null) {  // 파라미터에서 null이 허용되었기 때무에, 함수 내부에서 if문으로 null체크를 해야 파라미터 사용이 가능하다.
+    var length2 = str.length
+  }
+}
+```
+
+### 안전한 호출 (?.) : Safe Call
+
+* Nullable 변수 다음에 ?. 을 사용하면 다음에 오는 메서드 혹은 프로퍼티를 호출하지 않는다
+
+```kotlin
+fun testSafeCall(str: String?): Int? {
+  //str이 null이면 lenght 실행x, null 반환
+  var resultNull: Int? = str?.length
+  return resultNull
+}
+```
+
+### Null 값 대체 (?:) : Elvis Operator
+
+* 선언된 nullable변수나 프로퍼티 다음에 ?: 표기
+* 변수가 null이면 ?: 다음에 오는 값을 기본(default)값으로 사용
+
+```kotlin
+fun testElvis(str: String?): Int {
+  // legnth 오른쪽에 ?:을 사용하면 str이 null일 경우 0이 반환된다.
+  var resultNonNull: Int = str?.length?:0
+  return resultNonNull;
+}
+```
 
 
 
