@@ -262,6 +262,5 @@ fun testElvis(str: String?): Int{
   var resultNonNull: Int =str?.length?:0
   return resultNonNull;
 }
-}
 
 ```
