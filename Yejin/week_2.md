@@ -148,4 +148,77 @@ fun Myclass.sleep(){
 
 
 ```
----->p. 168까지
+* 추상화
+```kotlin
+abstract class Animal { //추상클래스
+  fun walk(){
+    Log.d("abstract", "걷습니다.")
+  }
+  abstract fun move()
+}
+
+class Bird : Aimal(){  //추상클래스를 상속받아 구현
+  override fun move(){
+    Log.d("abstract", "날아서 이동")
+  }
+}
+```
+
+* 인터페이스
+- 추상화와 인터페이스의 차이점: 개념 클래스 중에 실행코드가 한 줄이라도 있으면 추상화, 메서드 이름만 나열되어있으면 인터페이스
+
+```kotlin
+interface InterfaceKotlin{
+  var variable: String
+  fun get()
+  fun set()
+}
+
+//구현하기-1
+class KotlinImpl : InterfaceKotlin{
+  override var variable: String = "init value"
+  override fun get(){
+    //코드구현
+  }
+  override fun set(){
+    //코드구현
+  }
+}
+
+
+//구현하기-2 : 상속형태가 아닌 소스코드에서 직접 구현.
+var KotlinImpl = object : InterfaceKotlin{
+  override var variable: String = "init value"
+  override fun get(){
+    //코드구현
+  }
+  override fun set(){
+    //코드구현
+  }
+}
+  
+```
+
+* 접근제한자
+
+|접근제한자|제한범위|
+|---|-------------|
+|private|다른 파일에서 접근 불가능|
+|internal|같은 모듈에 있는 파일만 접근 가능|
+|protected|private와 같으나 상속관계에서 자식클래스가 접근 가능|
+|public(기본)|제한 없이 모든 파일에서 접근 가능|
+
+*모듈이란? 한번에 같이 컴파일 되는 모든 파일을 말함.
+
+* 제네릭
+```kotlin
+fun testGenerics(){
+  var list: MutableList<String> = mutableListOf()
+  list.add("월") //문자열만 담을 수 있다.
+  list.add("화")
+  for(item in list){
+    Log.d("Generic", "list에 입력된 값은 ${item}입니다.")
+  }
+}
+
+```
