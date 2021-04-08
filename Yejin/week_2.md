@@ -223,3 +223,45 @@ fun testGenerics(){
 }
 
 ```
+
+# Null Safety - null값에 대한 안정적인 처리
+
+* Nullable: null값 허용하기
+
+*코틀린에서 지정하는 기본 변수는 모두 null이 입력되지 않는다. null값을 입력하기 위해서는 변수를 선언할 때 타입 뒤에 ?(Nullable)을 입력합니다.
+
+```kotlin
+var nullable : String?
+nullable=null
+
+fun nullParameter(str: String?){
+  if (str!=null){
+    var length2= str.length
+  }
+}
+
+fun nullReturn(): String?{
+  return null
+}
+```
+
+* ?.(Safe Call): Nullable인 변수 다음에 ?. 을 사용하면 해당 변수가 null일 경우 ?. 다음의 메서드나 프로퍼티를 호출하지 않는다.
+```kotlin
+fun testSafeCall(str: String?): Int? {
+  //str이 null이면 length를 체크하지 않고 null을 반환한다.
+  var resultNull: Int? = str?.length
+  return resultNull;
+}
+```
+
+* ?:(Elvis Operator) :Null값 대체하기
+
+```kotlin
+fun testElvis(str: String?): Int{
+  //length 오른쪽에 ?:을 사용하면 null일 경우 ?: 오른쪽의 값이 반환된다.
+  var resultNonNull: Int =str?.length?:0
+  return resultNonNull;
+}
+}
+
+```
