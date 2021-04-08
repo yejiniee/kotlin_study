@@ -226,7 +226,7 @@ fun testGenerics(){
 
 # Null Safety - null값에 대한 안정적인 처리
 
-* Nullable: null값 허용하기
+* ?(Nullable): null값 허용하기
 
 *코틀린에서 지정하는 기본 변수는 모두 null이 입력되지 않는다. null값을 입력하기 위해서는 변수를 선언할 때 타입 뒤에 ?(Nullable)을 입력합니다.
 
