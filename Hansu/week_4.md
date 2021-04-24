@@ -133,4 +133,42 @@ Frame Layout     |     |
 > Frame Layout
 ----------------
 
-* 
+* 위젯을 중첩해서 사용하기 위한 레이아웃
+* 게임 화면처럼 배경과 플레이어가 서로 다른 레이어에서 겹쳐 움직여야 할 때 사용
+* 레이아웃중 처리 속도가 가장 빠름 -> 1개의 이미지만 사용하던지, 단순한 형태로 사용할 경우 성능이 좋다.
+* 삽입되는 다른 레이아웃이나 위젯을 겹쳐놓는 용도
+* 필수 속성x
+* 정렬은 삽입되는 위젯의 layout_gravity 속성 사용
+
+### Frame layout의 XML 구조
+
+* 속성 영역 상단의 [Code] 클릭
+
+```xml
+<?xml version="1.0" encodeing="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+</FrameLayout>
+```
+
+* XML 코드는 앞뒤로 홑화살괄호(<>)로 감싼 형태로 생성
+* [Design]모드로 변경 후, 팔레트에서 버튼을 드래고해서 UI편집기에 가져다 놓으면 버튼 생성
+* 그 후 코드
+```xml
+<?xml version="1.0" encodeing="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+             //여기부터 버튼위젯에 대한 코드
+             <Button
+                     android:id="@+id/button"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Button/>
+</FrameLayout>
+```
+
+* <태그> : 시작 태그
+* </태그> : 종료 태그
+* <태그/> : 홑 태그  - 시작태그와 종료태그를 한번에 사용
