@@ -263,3 +263,243 @@ Frame Layout     | 위젯을 중첩해서 사용하기 위한 레이아웃 |
 * 텍스트의 전체 길이를 제한하는 속성. 나머지는 보이지 않게한다.
 
 
+> EditText
+----------
+
+* 텍스트 카테고리의 Plain Text부터 Number(Decimal)까지 이름 앞에 Ab아이콘이 붙어있는 것이 모두 EditText위젯이다.
+* 글자를 보여주기도 하지만, 주로 입력받는 용도로 사용
+* Textview의 주요 속성을 거의 그대로 사용하고 입력받는다.
+
+### 입력되는 글자를 실시간으로 처리하기
+* 입력되는 글자를 실시간으로 로그에 출력하기
+  + activity_main.xml파일을 열고 PlainText를 텍스트뷰 아래에 놓는다.
+  + id속성 입력필드에 editText를 입력한다.
+  + text속성에 기본값을 삭제한다.(Common Atributes)
+  + bundle.gradle파일을 열고 android스코프에 viewBinding true설정을 추가. 추가 후, Sync Now클릭
+  ```xml
+  //이 코드는 외워두자
+  buildFeatures {
+    viewBinding true
+  }
+  ```
+  + MainActivity.kt로 이동. class MainActivity에 binding프로퍼티를 하나 생성하고 by lazy를 사용해서 ActivityMainBinding을 inflate한다.
+  ```kotlin
+  //2장의 2.5 코틀린코드와 레이아웃 연결하기 참조
+  class MainActivity: AppCompatActivity() {
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+  ```
+  + onCreat() 메서드 안에 setContentView에 binding.root를 전달한다.
+  + 이어서 binding으로 앞에서 작성해둔 에디트텍스트의 id에 연결한다.
+  ```kotlin
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(binding.root)
+    binding.editText.addTextChangedListener { // EditText의 변경사항을 캐치할 리스너를 달아야 한다. 
+      Log.d("EditText", "현재 입력된 값=${it.toString()}")
+    }
+  }
+  ```
+  + 이후 run App 아이콘으로 실행.
+
+* 한글 키보드 설정법
+  + 에뮬레이터 화면 하단을 클릭 후, Settings -> System -> Languages & Input -> Languages(English)선택 -> Add a language -> 돋보기 -> Korean입력 후 선택
+
+### hint
+* 클릭하면 사라지는 미리보기 (place holder라고도 불림)
+
+### inputType
+* 키보드 모양 설정
+* number - 숫자만 있는 키보드, texPassword - 입력되는 텍스트가 검은색 점으로 가려짐 등
+
+### imeOptions
+* 입력 완료 후 실행할 이벤트 설정 (input method editor)
+
+
+> 이미지 버튼
+------------
+* 버튼은 이미지 위에 텍스트만 가능, 이미지버튼은 이미지 위에 이미지 가능
+* 리스너를 텍스트에 구현했느냐, 이미지뷰에 구현했느냐의 차이
+* 이미지 뷰의 속성을 그대로 사용한다.
+
+### 기본 이미지 사용
+* activity_main.xml의 UI편집기에 이미지버튼을 가져다 놓으면 이미지 선택창이 나욤 -> Drawable클릭하면 sample data가 나옴
+
+### 새 이미지 사용
+* 사용할 이미지를 준비해서 drawable 디렉터리에 붙여넣기 한 다음 Refactor
+* 팔레트에서 이미지버튼을 드래고해서 UI편집기에 가져가놓는다. 그 후, 속성영역의 src 옆 버튼을 클릭하여 붙여넣기한 이미지를 선택
+
+### 투명배경 설정
+* 속성 중 background 속성에 '@android:color/transparent'를 적용
+
+### scaleType
+* 이미지 크기 설정, 이미지뷰에서도 사용
+
+### tint
+* 이미지 영역에 색을 채우는 속성. 스포이드 아이콘을 클릭해서 색선택
+* 이미지의 투명도를 기준으로 색이 적용된다.
+
+### alpha
+* 투명도를 조절. (0~1) 0이면 투명
+
+
+> RadioGroup & RadioButton
+-------------------------
+* activity_main.xml -> 버튼카테고리 -> 라디오그룹 -> id 속성에 radioGroup 입력
+* 컴포넌트 트리에서 radioGroup을 찾아 클릭
+* 라디오그룹안에 라디오버튼을 가져다 놓는다. 각각 id속성을 정해준다.
+* 라디오버튼의 text속성에 화면에서 볼 수 있는 텍스트를 입력
+* bundle.gradle파일을 열고 android스코프에 viewBinding true 설정 추가 -> Sync now
+```xml
+buildFeatures {
+  viewBinding true
+}
+```
+
+* MainActivity.kt 클릭 후 onCreate()메서드 위에 binding프로퍼티생성 후 ActivityMainBinding을 inflate
+```kotlin
+  val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+```
+* onCreate() 안에 작성되어 있는 setContentView에 binding.root 전달
+```kotlin
+setContentView(binding.root)
+binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
+  when (checkedID) {
+  //R.id.radioApple -> Lodg.d~
+  //~~코드
+  }
+}
+```
+
+### oriendtation
+* 라디오그룹은 리니어 레이아웃에 라디오버튼을 담을 수 있는 형태의 레이아웃.
+* 라디오버튼들을 가로로 정렬할지 세로로 정렬할지 정할 수 있다.
+
+### checkedButton
+* 미리 선택되어 있는 라디오버튼 설정
+
+> 체크박스
+----------
+* 라디오버튼과 달리 여러개 선택가능
+* 공통으로 사용되는 리스너 1개만 구현해서 사용가능
+  
+* 리니어 레이아웃을 가운데 배치, 체크박스를 리니어 레이아웃 안에 놓고 id와 text값 입력
+* layout_width,height를 wrap_content로 설정
+* build.gradle에 viewBinding true 추가
+* MainActivity.kt 탭에서 onCreate() 위에 binding 프로퍼티생성 후 ActivityMainBinding을 inflatae
+* onCreate()안의 setContentView에 binding.root전달
+```kotlin
+binding.checkid.setOnCheckedChangeListener { buttonView, isChecked ->
+  if(isChecked) Log.d(~~)
+  else Log.d~~
+}
+```
+* 위의 방식은 모든 체크박스에 리스너를 달아줘야함. 불편
+* 밑의 방식사용
+```kotlin
+class MainActivity : AppCompatActivity() {
+  val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+  val listener by lazy {
+    CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+      if (isChedcked) {
+        when (buttonView.id) {
+        R.id.checkApple -> ...
+        //...
+        }
+      } else { //체크버튼이 해제되었을 때
+        when(buttonView.id) {
+        //...
+        }
+      }
+    }
+  }
+  
+  override fun onCreate(saveInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(binding.root)
+    
+    binding.checkid.setOnCheckedChangeListener(listener)
+    binding.checkid2.setOnCheckedChangeListener(listener)
+    binding.checkid3.setOnCheckedChangeListener(listener)
+```
+
+> 토글버튼, 스위치, 이미지뷰
+---------------------------
+* 토글버튼: 체크박스와 동일. CompoundButton을 상속받아 사용하기때문에 동일. 모양만 조금 다르다.
+* 스위치: 체크박스와 동일, CompoundButton을 상속받아 사용(체크박스도 이것을 상속받아사용)
+* 이미지뷰: 이미지버튼과 사용법 유사. 리스너를 달아서 clock 이벤트도 받을 수 있지만, 이미지를 보여주는 용도로만 사용하자.
+
+> ProgressBar
+-------------
+* 진행 상태를 나타내는 위젯
+
+### 진행상태표시하기
+* 리니어레이아웃 id 속성에 progressLayout입력. gravity는 center
+* 팔레트 위젯 카테고리에서 프로그레스바와 텍스트뷰를 리니어 레이아웃에 놓는다. 텍스트뷰의 gravity도 center
+* build.gradle파일에 viewBinding설정
+* MainActivity.kt 탭에서 binding생성 후 setContentView에 bindinf.root전달
+* 클래스안(Oncreate밖)에 showProgress 메서드를 만들고 리니어 레이아웃을 숨겼다 보였다 할 수있는 코드 추가
+```kotlin
+fun showProgress(show: Boolean) {
+  if (show) { //INVISIBLE은 안보이는 상태(공간은 차지함), GONE은 안보이는 상태인데 공간도 차지안함
+    binding.progressLayout.visibility = Vew.VISIBLE
+  } else {
+    binding.progressLayout.visibility = View.GONE
+  }
+}
+```
+* 그림그리는 코드는 메인스레드에서만 실행할 수 있음.(UI Thread라고도함)
+* onCreate()안의 코드는 모두 메인스레드에서만 그려짐.
+* 이를 위해서 thread(start=true) 사용
+```kotlin
+thread(start=true) {  //서브스레드
+  Thread.sleep(3000)
+  runOnUiThread {   //메인스레드
+    showProgress(false)
+  }
+}
+```
+
+> SeekBar
+--------
+* 볼륨을 조절하거나 재생시간을 조절하는 용도로 사용
+
+* 위젯 카테고리의 SeekBar를 가져다놓는다. layout_width:0dp, height:wrap_content
+* id속성에 seekBar입력
+* seekBar위에 텍스트보ㅠ를 하나 가져다 놓고 컨스트레인트 연결
+* build.gradle에 viewBinding설정 후 MainActivity.kt에서 binding.root전달
+* setContentView 아랫줄에 binding.seekBar.setOnSeekBarChangeListener 선택
+* 리스너의 중괄호 안에 마우스를 두고 Ctrl + I 키를 입력 후 Implement Members 팝업창에서 3개의 메서드를 모두 선택 후 OK클릭
+* 각 메서드의 TODO행은 삭제한다. 혹은 주석처리
+```kotlin
+binding.seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+  override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+    binding.textView.text = "$progress"
+  }
+  override fun onStartTrackingTouch(seekBar: SeekBar?) {
+    //ToDo~~
+  }
+  override fun onStopTrackingTouch(seekBar: SeekBar?) {
+    //ToDo~~
+  }
+})
+```
+* 주요 속성 - max:시크바의 최대값 설정. progress: 처음시작하는 시크바의 값 설정
+
+> RatingBar
+-------------
+* 별점을 매기는 위젯
+* RatingBar를 화면에 놓는다.
+* 레이팅바 오른쪽에 텍스트뷰 배치후 컨스트레인트를 레이팅바와 연결
+* build.gradle파일에 viewBinding 후 MainActivity.kt에서 binding.root
+* setContentView 다음줄에
+```kotlin
+binding.ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+  binding.textView.text = "$rating"
+}
+```
+* rating: 현재 별점
+* fromUser: 사용자 입력 여부
+* 주요속성 : numStars-전체 표시되는 별의 개수 설정, rating-처음시작하는 별점값, stepSize-별을 드래그 했을때 움직이는 최소 단위 (0~1)
+* 각 속성에 도트연산자로 값을 입력 가능
+
+* 인터페이스에 정의되어 있는 메서드가 1개면 중괄호를 사용하여 코드 축약 가능(람다식)
