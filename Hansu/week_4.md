@@ -172,3 +172,94 @@ Frame Layout     | 위젯을 중첩해서 사용하기 위한 레이아웃 |
 * <태그> : 시작 태그
 * </태그> : 종료 태그
 * <태그/> : 홑 태그  - 시작태그와 종료태그를 한번에 사용
+
+
+
+
+
+  
+## 디자인 요소 위젯
+
+* 팔레트 영역의 Text, Buttons, Widgets을 살펴보자.
+
+## 위젯의 대표 메뉴
+
+* Common : 텍스트, 버튼, 레이아웃 등 일반적으로 많이 사용되는 것들을 모아놓은 메뉴
+* Text : 글자를 화면에 나타내거나(TextView) 입력받을 수 있는(Edit Text) 위젯을 모아놓은 메뉴, Ab 아이콘에 언더바가 있으면 Edit Text Widget이다.
+* Buttons : 사용자로부터 클럭 또는 터치 관련 이벤트를 받을 수 있는 위젯 모음. 버튼, 라디오버튼, 체크박스, 스위치 등
+  + 스마트폰에서 순을 대는 순간 = 터치, 터치한 뒤 같은 위치에서 손가락을 떼었을 때 = 클릭
+* Widgets : 이미지, 웹사이트, 별점 표시, 진행 상태등의 정보를 화면에 그리는 모음
+
+> TextView
+-----------
+
+* 화면에 텍스트를 출력
+* 레이아웃 파일에서 텍스트뷰의 text속성에 값을 직접 입력할 수도 있고, 소스코드에서 입력할 수도 있음.
+
+### text(strings.xml)
+* 화면에 나타낼 텍스트를 입력하는 속성
+* strings.xml에 사용할 텍스트를 미리 정의해 놓고 가져다가 사용하는 것이 관리하기에 용이 (app-res-values-strings.xml)
+
+```xml
+//<string name="스트링 이름(공백x,중복x)">보여질 텍스트</string> / id의 용도
+<resources>
+  <string name="app_name">WidgetsTextView</string>
+  <string name="string01">화면에 보여질 글자 01</string>
+  <string name="string02">화면에 보여질 글자 02</string>
+</resources>
+```
+
+* TextView에 적용하기 위해 activity_main.xml파일을 연 후, text속성의 입력필드에 '@string/string01' 형태로 입력
+
+### textColor(colors.xml)
+* 텍스트 색상을 지정하는 속성
+* RGB를 기준으로 0~255의 숫자를 16진수 8자리로 입력해서 표현.
+* '#투명빨강녹색파랑' 형식 (00~FF). 투명은 00에 가까울 수록 투명, 나머지는 FF에 가까울 수록 해당색에 가까워진다. 투명값이 없으면 투명빼고 6자리만 입력
+* colors.xml에 작성한 뒤 값을 참조해서 사용. (app-res-values) values가 없으면 메뉴에서 [New]-[Value Resource File]을 선택해 생성
+  + colors.xml에는 기본 컬러기 이미 있다. <color name="컬러이름">#색상</color> 형식 <!-- 새로추가 --> 와같은 주석을 달고 추가하자
+* 적용시에는 TextView의 속성의 textColor에 '@color/컬러이름'을 입력
+
+### textSize(dimens.xml)
+* 텍스트의 크기를 지정하는 속성
+* dp, px, sp등의 단위 사용. 텍스트는 이중에서 sp(Scale-independent Pixels)를 사용. 다른위젯은 대부분 dp사용
+  + sp를 사용하는 이유는 같은 해상도에서 문자열의 크기를 다르게 사용하는 경우가 있기 때문. 화면 스케일에 독립적으로 크기를 조절할 수 있는 단위
+  + 눈이 안 좋은 사람이 폰트 크기를 키워야할 때, sp를 이용하면 다른 위젯에 영향x
+* dimens.xml을 참조하여 사용. values디렉터리에서 따로 만들어서 사용한다. values디렉터리 우클릭 - New-Values-Resource File, File name : dimens
+* <dimen name="단위이름"?150sp</dimen> 형태로 작성
+* 사용시는 textSize 속성 입력필드에 '@dimen/단위이름' 입력
+
+### textStyle
+* 텍스트의 스타일을 설정하는 속성
+* normal, bold(굵게), italic(기울임) 중복가능
+
+### maxLines, minLines
+* 입력 가능한 최대/최소 줄 수 설정
+* minLines는 줄이 입력되면 자동으로 높이가 늘어난다.
+
+### singleLine
+* 텍스트뷰를 한 줄로 보이게하는 속성(줄 사이의 \n을 없앤다)
+
+### ellipsize
+* 문자열이 길어서 글자가 잘릴 때 말줄임(...) 표시를 하거나, marquee로 글자를 좌우로 움직이게 한다.
+  + none: 설정하지않습니다
+  + start: 텍스트의 첫 부분을 바꿈
+  + middle: 중간 부분을 바꿈
+  + end: 끝 부분을 바꿈
+  + marquee: 글자가 흐르는 효과.(singleLine을 true로 설정해야 사용가능. focusable은 auto, focusableInTouchMode속성은 true로 설정하면 전광판효과)
+
+### fontFamily
+* 글꼴을 지정하는 속성. 외부 폰트도 지정가능.
+* 입력필드 클릭 후 More Fonts로 글꼴 추가
+
+### ems
+* 현재 글꼴의 크기를 기준으로 글꼴 크기 설정
+  ex) 현재 텍스트뷰의 크기가 12sp라면, 1em = 12sp, 2em = 24sp
+  + 즉, 텍스트와 텍스트뷰의 비율 유지하기 위한 것
+
+### lines
+* 텍스트뷰의 높이를 고정할 때 사용
+
+### maxLength
+* 텍스트의 전체 길이를 제한하는 속성. 나머지는 보이지 않게한다.
+
+
