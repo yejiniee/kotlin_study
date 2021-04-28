@@ -503,3 +503,88 @@ binding.ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 * 각 속성에 도트연산자로 값을 입력 가능
 
 * 인터페이스에 정의되어 있는 메서드가 1개면 중괄호를 사용하여 코드 축약 가능(람다식)
+
+
+## 리소스 다루기
+
+* 이미지 리소스인 drawable, 앱 아이콘에 사용되는 mipmap, 그리고 strings를 이용한 다국어 처리에 대해 알아보자
+
+> drawable과 단위
+-----------------
+* 스마트폰마다 화면의 픽셀수가 다르기 때문에 사이즈를 표시하는 단위로 가상화소 개념인 dp를 사용.
+* dp는 화면밀도(DPI)에 따라서 실제 픽셀로 변환되는 크기가 달라진다.
+
+### DPI
+
+표현 | 화소수 | 비고
+-----|-------|-----
+ldpi | 120   | 현재사용하지않음
+mdpi | 160   | 기준: 1dp = 1pixel
+hdpi  | 240  |
+xhdpi | 320  | 1dp - 2pixel
+xxhdpi| 480  | 1dp = 3pixel
+xxxhdpi| 640 | 1dp = 4pixel
+
+* 가로세로 1인치의 공간에 들어 있는 펙셀수를 나타내는 단위.
+* 기본은 160dpi 인데 이를 mdpi라고 한다.
+
+### dp
+* density-independent Pixels. 안드로이드에서 사용하는 독립적 수치 단위.
+* 해상도와 관계없이 동일한 크기로 화면에 표시
+
+### sp
+* Scale-independent Pixels
+* 문자열의 크기를 나타내기 위해 사용하는 단위
+* 줌인, 줌아웃 시에 다른위젯에 영향x
+
+### drawable 디렉터리 구성
+* DPI구조로 인해 해상도에 맞는 drawable 디렉터리에 이미지를 넣고 사용해야 한다.
+* DPI별 디렉터리를 수동으로 생성하려면 Project뷰에서 res 디렉터리를 마우스 우클릭 -> New -> Directory선택 후 이름입력
+* 안드로이드는 호출된 이름을 확인 후 해상도에 맞는 디렉터리 안의 이미지를 사용한다.
+* drawable-v24 디렉터리는 디바이스버전 24이상일때 자동으로 선택됨
+* 뒤에 접미사가 없는 drawable 디렉터리는 이미지 외에 화면과 관련된 XML파일을 관리하는 용도로 사용
+* 이미지 표현방식은 비트맵(사진)과 벡터(아이콘) 방식이 있음
+
+> mipmap 앱 아이콘
+------------------
+
+### mipmap
+* 앱 아이콘에 사용되는 디렉터리. 일반이미지는 drawable에 넣자.
+* 각각의 디렉터리에 (mipmap-anydpi-v26, mipmap-hdpi, mipmap-mdpi 등) 아이콘 이미지를 넣고 AndroidManifest.xml에 있는 <application>태그의 icon속성에 설정하면 앱 설치 후 안드로이드 화면에 나타난다.
+```xml
+  <application
+               android:allowBackup="true"
+               android:icon="@mipmap/ic_launcher"
+               android:label="Camera And Gallery"
+               android:roundIcon="@mipmap/ic_launcher_round" //roundIcon속성은 25버전부터 지원. 런처가 동그란 아이콘을 사용하면 이 속성의 이미지 사용
+```
+
+### adaptive icon
+* mipmap-anydpi-v26 디렉터리 안에 ic_launcher.xml파일을 열어보면 백그라운드 이미지와 포어그라운드 이미지 2개를 포개어서 아이콘으로 그려주는 역할을 한다.
+```xml
+  <?xml version="1.0" encoding="utf-8"?>
+  <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@drawable/ic_launcher_background" />
+    <foreground android:drawable="@drawable/ic_launcher_foreground" />
+</adaptive-icon>
+```
+* @drawable/ic_launcher_background 파일명이 지정되어 있는데, 벡터 기반의 이미지가 입력되어 있다. 이런 구조를 adaptive icon이라고 한다.
+* 이미지 아이콘과 동일하게 AndroidManifest.xml에 있는 <application>태그의 icon 속성에 적용하고 사용
+
+> strings와 다국어 처리
+-----------------------
+
+### string
+* strings.xml을 Translations Editor를 통해서 관리 가능
+  + strings.xml을 열으 Open editor 클릭
+  + Translation Editor가 나타나는데, Code모드에서 XML을 수정하는 대신에 에디터를 통해 strings를 추가 삭제할 수 있다
+  + 에디터상단의 [+]버튼을 클릭하면 <string>태그 생성할 수 있는 팝업창이 나타난다.
+  + [-]버튼은 <string>을 삭제하는데 사용.
+
+### 다국어 처리하기
+* Translations Editor는 다국어를 처리하는게 목적이다.
+* 지구본을 클릭하면 선택메뉴에서 [Korean(ko)]선택.
+* 기존 strings목록 칼럼에 Korean(ko)가 추가됨. 좌측 탐색기에는 values-ko가 생성되어 있고, 그 안에 strings.xml이 추가되어 있다.
+* Translations Editor에서 Korean(ko) 칼럼에 한글 입력
+* 입력 완료 후 strings.xml(ko)파일을 열어보면 설정이 완료되어있음.
+* Translations Editor를 이용해서 국가별 strings.xml파일을 구성하여 사용.
