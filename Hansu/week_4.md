@@ -2,9 +2,9 @@
 
 레이아웃 | 설명
 ---------|------
-Constraint Layout|     |
-Linear Layout    |     |
-Frame Layout     |     |
+Constraint Layout| 간단한 드래그 앤 드롭만으로 화면 요소들을 원하는 곳에 배치 |
+Linear Layout    | 위젯을 가로 또는 세로 한 줄로 배치하기 위한 레이아웃 |
+Frame Layout     | 위젯을 중첩해서 사용하기 위한 레이아웃 |
 
 
 ## 레이아웃
