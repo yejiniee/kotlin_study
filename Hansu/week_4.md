@@ -34,7 +34,7 @@
 
 ----
 
-## Intent
+### Intent
 
 * 액티비티를 실행하기 위해서, 컨텍스트가 제공하는 메서드를 호출해야하는데, 이때 실행할 액티비티가 명시된 인텐트를 해당 메서드에 전달해야한다.
 * 개발자가 어떤 의도를 가지고 메서드를 실행할 것인지를 인텐트에 담아 안드로이드에 전달
@@ -50,7 +50,7 @@
 
 ----
 
-## 새 액티비티 만들고 실행하기
+### 새 액티비티 만들고 실행하기
 
 * app - java 밑에 있는 패키지에서 마우스 우클릭하여 New - Activity - Empty Activity
 * SubActivity 생성(xml파일은 activity_sub.xml), Launcher Activity는 프로그램실행시 먼저 호출되도록 설정하는 것
@@ -74,7 +74,7 @@ class MainActivity: AppCompatActivity() {
 
 ----
 
-## 액티비티 사이에 값 주고받기
+### 액티비티 사이에 값 주고받기
 
 * 인텐트 내부의 bundle 이라는 데이터 저장공간에 데이터를 담아 주고받을 수 있다.
 * 인텐트에 값 입력시 : 키와 값의 조합으로 번들에 넣는다.
@@ -154,4 +154,138 @@ if (resultCode == RESULT_OK) {
   }
 }
 ```
+
+----
+
+### 액티비티 생명 주기
+
+메서드 | 액티비티 상태 | 설명
+----- | --------------|----
+onCreate()|만들어짐|액티비티가 생성됨
+onStart()|화면에 나타남|화면에 액티비티가 보이기 시작
+onResume()|실행중,화면에 나타남|액티비티가 실행되고 있다.(실행중)
+onPause()|화면이 가려짐|액티비티 화면의 일부가 다른 액티비티에 가려짐
+onStop()|화면이 없어짐|다른 액티비티가 실행되어 화면이 완전히 가려짐
+onDestroy()|종료됨|종료됨
+
+* 액티비티 상태변화를 말함.
+* 이 메서드들은 override를 통해서 사용
+* super.on~() 로 상속받아 사용. 상속받지 않으면 정상적으로 동작하지 않는다.
+
+
+### 생명주기 콜백
+
+* 액티비티 생성후 화면에 출력 : onCreate - onStart - onResume
+* 액티비티를 화면에서 제거 : onPause - onStop(동시에) - onDestroy
+* 새 액티비티 생성시 : 현재 액티비티 - onPause - onStop(종료x), 새 액티비티 - onStart - onResume
+* 새 액티비티가 현재 액티비티를 모두 가리지 않고 생성될 때 : 현재 액티비티 - onPause - 새 액티비티 종료 - onResume
+
+### 액티비티 백스택
+
+* 액티비티 또는 화면 컴포넌트를 담는 안드로이드의 저장공간
+* 액티비티를 후입선출로 담는 스택이라고 생각하자.
+
+### Task와 Process
+
+* Task : Process를 관리하는 작업 단위
+* Process : Application의 실행 단위
+* Task는 다른 프로세스의 액티비티를 함께 담을 수 있다. = 서로 다른 어플리케이션의 액티비티 공유가능.
+
+### Task관리하기
+
+* Manifest로 관리 : Task와 BackStack으로 관리되는 액티비티는 AndroidManifest.xml의 <activity> 태그 안에 속성처럼 사용가능
+  `<activity android:name=".MainActivity" android:launchMode="singleInstance"></activity>`
+  
+속성 | 설명
+-----|-----
+launchMode|호출할 액티비티를 생성할 것인지 재사용할 것인지 결정. 디폴트는 새로생성. standard, singleTop,singleTask, singleInstance
+taskAffinity|affinity가 동일한 액티비티들은 같은 task에 들어간다. 디폴트는 manifest에 정의된 패키지명->기본적으로 한 앱의 모든 액티비티는 동일한 affinity를 가진다.
+allowTaskReparenting|기본값은 false, true일 경우 호출한 액티비티를 동일한 affinity를 가진 태스크에 쌓이도록 한다.
+clearTaskOnLaunch|True이면 액티비티 재실행시 메인 액티비티를 제외하고 모두 제거. 기본값 false
+alwaysRetainTaskState|기본값은 false, 사용자가 특정 시간동안 앱을 사용하지 않을 경우, 시스템이 Root액티비티를 제외한 액티비티제거. true일 경우 시스템이 관여안함
+finishOnTaskLaunch|앱을 다시 사용할 때 이 옵션이 true인 액티비티가 있다면 해당 태스크 종료
+  
+* startActivity에 전달하는 intent의 flag값으로 관리
+  ```kotlin
+  val intent = Intent(this, SubActivity::class.java)
+  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+  ```
+  + FLAG_ACTIVITY_ 를 접두사로 CLEAR_TOP, NEW_TASK, MULTIPLE_TASK, SINGLE_TOP등이 있다.
+
+-----
+
+## 컨테이너: 목록 만들기
+
+* 위젯의 위치 : 레이아웃사용
+* 위젯이나 레이아웃에 데이터를 동적으로 표현 : 컨테이너 사용
+* 대표 : RecyclerView
+* 컨테이너는 내부 요소의 위치를 결정할 수 있는 속성이 없으므로 컨테이너 안에 레이아웃을 삽입해서 사용
+
+### 스피너
+* 리사이클러뷰의 축소버전
+* 여러 개의 목록 중 하나를 선택할 수 있는 선택 도구
+* Adapter(연결도구)를 사용해 화면에 나타낼 데이터와 화면에 보여주는 스피너를 연결
+
+![image](https://user-images.githubusercontent.com/27190776/116779236-0f254980-aab0-11eb-941e-96b9527b528b.png)
+
+----
+
+### 리사이클러뷰
+* 스피너의 확장된 형태
+* 레이아웃 매니저를 이용해 리스트를 그리드로 바꿀 수도 있음
+* 표시될 데이터와 아이템 레이아웃을 어댑터에서 연결해준다. 어떤 아이템 레이아웃을 사용하느냐에 따라 모양이 다르게 만들 수 있다.
+
+![image](https://user-images.githubusercontent.com/27190776/116779878-e99a3f00-aab3-11eb-9736-720ceefc5828.png)
+
+#### 어댑터 정의
+* 리사이클러뷰는 리사이클러뷰어대버라는 메서드 어댑터를 사용해서 데이터 연결. 상속이 필요
+```kotlin
+//뷰홀더 클래스를 제네릭으로 지정해야하므로, 뷰홀더 클래스를 먼저 생성하자.
+//뷰홀더 클래스
+//뷰홀더는 화면에 보여지는 개수만큼한 생성되고 목록이 위쪽으로 스크롤될 경우 가장 위의 뷰홀더를 아래에서 재사용한 후 데이터만 바꿔줌.
+class 홀더(바인딩): RecyclerView.ViewHolder(바인딩.root) {  //뷰홀더클래스의 생성자에는 다음에 만들 어댑터의 아이템 레이아웃을 넘겨
+                                                           //줘야하므로 클래스 생성시 생성자에게서 레이아웃의 바인딩을 넘겨받아야 한다.
+
+}
+//어댑터 클래스
+class 커스텀어댑터: RecyclerView.Adapter<뷰홀더> {
+  ...
+  override fun onBindViewHolder(뷰홀더, 아이템 위치) {
+  }
+}
+```
+
+![image](https://user-images.githubusercontent.com/27190776/116780575-95de2480-aab8-11eb-9aa7-9c61c7c6f85e.png)
+
+#### MainActivity.kt에서 어댑터 사용하기
+
+![image](https://user-images.githubusercontent.com/27190776/116780693-3cc2c080-aab9-11eb-9891-147169310eac.png)
+
+#### 레이아웃 매니저 종류
+
+1. LinearLayoutManager
+  * 세로 스크롤 : 한줄로 목록 생성
+    `LinearLayoutManager(this)`
+  * 가로 스크롤 : 칼럼 개수를 정해서 그리드 형태로 목록 생성, 두번째 파라미터 = 가로 스크롤 옵션.
+    `LinearLayoutManager(this, LinearLayoutManager.HORIZAONTAL, fale)`
+
+2. GridLayoutManager
+  * 데이터의 사이즈에 따라 그리드의 크기가 결정. 두번째 파라미터 = 한 줄에 몇개의 아이템을 표시할 건지 갯수
+    `GridLayoutManager(this, 3)`
+
+3. StaggeredGridLayoutManager
+  * 세로 스크롤 : 컨텍스트를 사용하지 않음. 첫번째 파라미터 = 한 줄에 표시되는 아이템의 개수, 두번째 파라미터 = 세로 방향 설정
+    `StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)`
+  * 가로 스크롤 :
+    `StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)`
+    
+#### 목록 이벤트 처리
+
+* 목록에서 아이템 1개가 클릭되었을 때 처리하는 방법
+
+![image](https://user-images.githubusercontent.com/27190776/116780979-df2f7380-aaba-11eb-9ec2-994b6329d564.png)
+
+* 모든 뷰는 컨텍스트를 가지고 있다. binding.root또한 뷰이기 때문에 binding.root.context형태로 사용가능
+----
+
 
