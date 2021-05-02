@@ -336,6 +336,7 @@ class 커스텀어댑터: RecyclerView.Adapter<뷰홀더> {
 ![image](https://user-images.githubusercontent.com/27190776/116808201-799ebe00-ab72-11eb-8075-9fdf95e7b961.png)
 
 + flase 를 false로 고쳐도 안됨.
++ 해결 : build.gradle의 viewBinding 설정을 true로 하자...
 
 ![image](https://user-images.githubusercontent.com/27190776/116808382-56c0d980-ab73-11eb-8b60-514e24a4069b.png)
 
@@ -355,4 +356,54 @@ class 커스텀어댑터: RecyclerView.Adapter<뷰홀더> {
 
 
 #### 생성된(화면에 보이는) 프래그먼트에 값 전달하기
+* setValue 메서드를 만들어서 사용
+
+![image](https://user-images.githubusercontent.com/27190776/116810399-8de8b800-ab7e-11eb-860b-30261c98aaa8.png)
+
+![image](https://user-images.githubusercontent.com/27190776/116810382-6c87cc00-ab7e-11eb-8226-94078537357e.png)
+
+#### 프래그먼트에서 프래그먼트로 값 전달하기
+
+* 프래그먼트 간 통신을 위해 Fragment Listener 사용
+* build.gradle의 dependencies에 추가
+```gradle
+    def fragment_version = "1.3.0-beta02"
+    //자바용 fragment 1.3.0
+    implementation "androidx.fragment:fragment:$fragment_version"
+    //코틀린용 fragment 1.3.0
+    implementation "androidx.fragment:fragment-ktx:$fragment_version"
+```
+
+* 수신측의 코드
+
+![image](https://user-images.githubusercontent.com/27190776/116810937-7e1ea300-ab81-11eb-953c-3a73bc261750.png)
+
+* 송신측의 코드
+
+![image](https://user-images.githubusercontent.com/27190776/116811214-0782a500-ab83-11eb-817a-13444709328e.png)
+
+----
+
+### 프래그먼트의 생명주기
+
+#### 생성 주기 메서드
+* 프래그먼트를 포함하고 있는 액티비티가 화면에 계속 나타나고 있는 상태에서는 1~5Rkwl gks qjsdp ghcnfehla.
+1. onAttach() - Fragment Manager를 통해 프래그먼트가 추가되고 commit되는 순간 호출. 파라미터로 전달되는 Context를 저장해놓고 사용하거나 상위 액티비티를 꺼내서 사용
+2. onCreate() - 프래그먼트가 생성됨과 동시에 호출. 프래그먼트 자원(변수)을 초기화할 때 사용
+3. onCreateView() - 뷰가 생성되면 호출, 사용자 인터페이스 관련된 뷰를 초기화하기 위해 사용
+4. onStart() - 프래그먼트가 새로 add되거나 화면에 다시나타나면 onCreateView는 호출 x, 이것만 호출
+5. onResume() - onStart와 동일. 소멸주기 메서드가 onPause상태에 멈췄을 때, onStart를 거치지 않고 onResume이 바로 호출
+
+#### 소멸 주기 메서드
+* 현재 프래그먼트 위로 새로운 프래그먼트가 add 되거나 현재 프래그먼트를 제거하면 소멸 주기와 관련된 메서드가 순차적으로 호출
+1. onPause() - 현재 프래그먼트가 화면에서 사라지면 호출
+2. onStop() - 현재 프래그먼트가 화면에 일부분이라도 보이면 onStop()은 호출되지 않는다.
+3. onDestroyView() - 뷰의 초기화를 해제하는 용도로 사용. 이 메서드 호출 후 onCreateView에서 인플레이터로 생성한 view가 모두 소멸
+4. onDestroy() - 액티비티에는 남아있지만 프래그먼트 자체는 소멸. 프래그먼트에 연결된 모든 자원 해제 용도
+5. onDetach() - 액티비티에서 연결이 해제된다.
+
+---------
+
+## View 사용하기
+
 
