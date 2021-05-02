@@ -17,10 +17,10 @@
 버튼, 라디오버튼, 체크박스, 스위치가 여기에 속한다.
 
 ## 텍스트뷰
-- textColor: 텍스트 색상 지정
+### textColor: 텍스트 색상 지정
 #FFFFFFFF(흰색) #FF888888(회색) #FFFF0000(빨간색)\
 
-- textSize: 텍스트 크기 지정
+### textSize: 텍스트 크기 지정
 텍스트뷰, 에디트텍스트에서는 주로 sp를 사용.
 >dimens.xml 파일에 저장해서 사용하기
 
@@ -36,17 +36,17 @@
 
 <img width="213" alt="git_1" src="https://user-images.githubusercontent.com/80842764/116807095-2f1a4300-ab6c-11eb-8260-722f181715e5.PNG">
 
-- textStyle: 텍스트 스타일 지정. normal, bold, italic 세가지가 있음.
+### textStyle: 텍스트 스타일 지정. normal, bold, italic 세가지가 있음.
 
-- maxLines, minLines: 입력가능한 줄 수 설정하기
+### maxLines, minLines: 입력가능한 줄 수 설정하기
 
 maxLines: 최대 입력 가능한 줄 수 설정. 그 이상은 출력되지 않는다.
 
 minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관계없이 최소 공간을 미리 마련해둠
 
-- singleLine: 텍스트가 여러 줄이 있을 때 한줄로 보여줌
+### singleLine: 텍스트가 여러 줄이 있을 때 한줄로 보여줌
 
-- ellipsize: 말줄임표시하기. maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정함   
+### ellipsize: 말줄임표시하기. maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정함   
 
 -none: 설정하지 않는다   
 
@@ -58,14 +58,14 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 
 -marquee: 글자가 흐르는 효과를 줌   
 
-- fontFamily: 텍스트 글꼴 지정
-- ems: 비율로 글꼴 크기 지정
+### fontFamily: 텍스트 글꼴 지정
+### ems: 비율로 글꼴 크기 지정
 
 텍스트뷰의 크기를 나타낼 때 현재 글꼴의 크기를 기준으로 설정하는 상대값. ex) 현재 설정된 크기가 12sp라면, 1em=12sp, 2em=24sp
 
-- lines: 텍스트뷰 높이 고정. 텍스트가 늘어나거나 줄어들어도 공간은 변하지 않음.
+### lines: 텍스트뷰 높이 고정. 텍스트가 늘어나거나 줄어들어도 공간은 변하지 않음.
 
-- maxLength: 텍스트 전체 길이 제한
+### maxLength: 텍스트 전체 길이 제한
 
 **참고-주석처리하는 방법**
 
@@ -73,8 +73,8 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 
 
 ## 에디트텍스트
-- hint: 클릭하면 사라지는 미리보기
-- inputType: 키보드 모양 설정하기
+### hint: 클릭하면 사라지는 미리보기
+### inputType: 키보드 모양 설정하기
 
 |inputType|옵션값|
 |-----|-----|
@@ -88,8 +88,7 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 |phone|전화번호 형식|
 |date|날짜 형식|
 
-- imeOptions: 이벤트 설정하기
-- 
+### imeOptions: 이벤트 설정하기
 입력 완료 후 실행할 이벤트를 설정. Ime(imput method editor): 텍스트 편집기
 
 ## 이미지버튼
@@ -99,17 +98,17 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 
 이미지버튼: 이미지 위에 아이콘과 같은 이미지 추가 가능. 이미지뷰의 속성
 
--기본 이미지 사용
+### 기본 이미지 사용
 
 [이미지버튼]을 UI편집기에 드래그->원하는 이미지 선택
 
--새로운 이미지 사용
+### 새로운 이미지 사용
 
 원하는 이미지를 drawable 디렉터리에 드래그 앤 드롭 한 뒤 drawable 뒤의 -v24를 지우고 저장 한 뒤 src에서 다시 이미지 선택
 
 <img width="678" alt="git_2" src="https://user-images.githubusercontent.com/80842764/116808068-d6e63f80-ab71-11eb-891c-6c000db460fb.PNG">
 
-- scaleType: 이미지 크기 설정하기
+### scaleType: 이미지 크기 설정하기
 
 |scaleType|기능|
 |-----|--------|
@@ -122,8 +121,8 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 |centerCrop|가로세로 사이즈 중 근접한 길이를 기준으로 나머지 한 쪽을 잘라서 비율을 맞춰준다. 뷰에 이미지가 가득 참|
 |centerInside|이미지가 위젯보다 크면 fitCenter와 같이 동작하고, 작으면 위젯의 중앙에 위치시킨다.|
 
-- tint: 이미지 영역에 색 채우기
-- alpha: 투명도 조절
+### tint: 이미지 영역에 색 채우기
+### alpha: 투명도 조절
 
 1~0사이의 값을 입력. 1: 불투명, 0: 투명
 
@@ -131,11 +130,11 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 라디오 버튼: 여러 개의 선택지 중에서 하나만 선택할 때 사용.
 
 <img width="171" alt="git_3" src="https://user-images.githubusercontent.com/80842764/116808571-7573a000-ab74-11eb-8ae1-3f9afa06cf92.PNG"> , <img width="191" alt="git_4" src="https://user-images.githubusercontent.com/80842764/116808642-e4e98f80-ab74-11eb-9d8b-6258251ef78c.PNG">
-- orientation: 라디오 버튼 배치하기
+### orientation: 라디오 버튼 배치하기
 
 선택지를 가로로 정렬할 건지 세로로 정렬할 건지 결정
 
-- checkedButton: 미리 선택된 라디오버튼 설정하기
+### checkedButton: 미리 선택된 라디오버튼 설정하기
 
 ## 체크박스
 
@@ -163,11 +162,10 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 
 
 ## 리소스다루기
-- drawable
-안드로이드는 
+### DPI: 가로세로 1인치의 정사각형 공간에 들어있는 픽셀의 숫자를 나타내는 단위.
 
-- DPI: 가로세로 1인치의 정사각형 공간에 들어있는 픽셀의 숫자를 나타내는 단위.
 안드로이드는 160DPI를 기본으로 사용하는데 이를 mdpi라고 한다.(스마트폰의 DPI가 mdpi면 가로세로 1인치의 사각형 안에 160개의 화소 존재)
+
 |표현|1인치 안의 화소수|비고|
 |---|---|-----|
 |mdpi|160|기준:1dp=1pixel|
@@ -175,28 +173,32 @@ minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관
 |xhdpi|320|1dp=2pixel|
 |xxhdpi|480|1dp=3pixel|
 |xxxhpdi|640|1dp=4pixel|
+
 1인치 안의 화소수가 높을 수록 화면 밀도가 높기 때문에 선명하다.
 
 각각의 해상도에 맞는 drawble 디렉터리에 이미지를 넣고 사용해야한다. 
 
 <img width="140" alt="git_8" src="https://user-images.githubusercontent.com/80842764/116809033-254a0d00-ab77-11eb-9c90-d79306a75884.PNG">
 
-- dp
+### dp
 안드로이드에서 사용하는 독립적 수치 단위. 해상도와 관계없이 동일한 크기로 화면에 표시됨.
 
-- mipmap
+### mipmap
 안드로이드 앱의 아이콘에 사용된다. 
 
-- adaptive icon
+### adaptive icon
 백그라운드 이미지와 포어그라운드 이미지 2개를 포개어서 아이콘으로 그려주는 역할을 한다.
 
-- strings 다루기
+### strings 다루기
+
 안드로이드는 strings.xml을 Translations Editor를 통해 관리할 수 있다.
+
 strings.xml을 열어 우측 상단에 있는 [Open Editor] 링크를 클릭하면 Translations Editor가 나타나는데 이 에디터를 통해 strings를 추가하거나 삭제할 수 있음
 
 <img width="260" alt="git_11" src="https://user-images.githubusercontent.com/80842764/116809301-3d6e5c00-ab78-11eb-8c02-3539f6b9d103.PNG">
 
-- 다국어 처리
+### 다국어 처리
+
 Translations Editor의 원래 기능은 다국어를 처리하는 데 목적이 있다.
 
 지구본 모양 아이콘을 클릭하면 여러나라가 나온다. 그 중 원하는 국가를 선택하여 사용한다.
