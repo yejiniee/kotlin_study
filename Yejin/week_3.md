@@ -18,12 +18,22 @@
 
 ## 텍스트뷰
 - textColor: 텍스트 색상 지정
-#FFFFFFFF(흰색) #FF888888(회색) #FFFF0000(빨간색)
-
-
+#FFFFFFFF(흰색) #FF888888(회색) #FFFF0000(빨간색)\
 
 - textSize: 텍스트 크기 지정
 텍스트뷰, 에디트텍스트에서는 주로 sp를 사용.
+>dimens.xml 파일에 저장해서 사용하기
+
+[values]->우클릭->[New]->[Values resource file]->file name: dimens
+
+```kotlin
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_dimen">24sp</dimen>
+    <dimen name="size_dimen">24dp</dimen>
+</resources>
+```
+
 
 - textStyle: 텍스트 스타일 지정
 나중에 이미지 삽입^^ 귀찮다
