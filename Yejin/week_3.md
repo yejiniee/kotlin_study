@@ -36,10 +36,10 @@
 
 <img width="213" alt="git_1" src="https://user-images.githubusercontent.com/80842764/116807095-2f1a4300-ab6c-11eb-8260-722f181715e5.PNG">
 
-### textStyle: 텍스트 스타일 지정. normal, bold, italic 세가지가 있음.
+### textStyle: 텍스트 스타일 지정. 
+normal, bold, italic 세가지가 있음.
 
 ### maxLines, minLines: 입력가능한 줄 수 설정하기
-
 maxLines: 최대 입력 가능한 줄 수 설정. 그 이상은 출력되지 않는다.
 
 minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관계없이 최소 공간을 미리 마련해둠
