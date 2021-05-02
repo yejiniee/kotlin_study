@@ -20,7 +20,7 @@
 - 전달된 인텐트 -> 타깃 액티비티에 전달
 - 타깃 액티비티에서는 전달받은 인텐트에 데이터가 있다면 이를 꺼내서 사용
 
-### Intent 이용해서 Main activity -> Sub activity   
+### Main activity에서 Sub activity 실행
 
 > MainActivity.kt
 ```kotlin
@@ -60,7 +60,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
-
 > SubActivity.kt
 ```kotlin
 class SubActivity : AppCompatActivity() {
@@ -78,3 +77,74 @@ class SubActivity : AppCompatActivity() {
     }
 }
 ```
+
+### 메인 액티비티에서 값 돌려받기
+> MainActivity.kt
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        val intent = Intent(this, SubActivity::class.java)
+        intent.putExtra("from1","hello bundle")
+        intent.putExtra("from2", 2021)
+        
+        //값 돌려받기 위해서 startActivityForResult(Intent, requestCode) 사용 
+        binding.button.setOnClickListener{ startActivityForResult(intent,99)}
+    }
+    
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            when(requestCode) {
+                99 -> {
+                    val message = data?.getStringExtra("returnValue")
+                    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+}
+```
+
+> SubActivity.kt
+```kotlin
+class SubActivity : AppCompatActivity() {
+
+    val binding by lazy { ActivitySubBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        binding.to1.text = intent.getStringExtra("from1")
+        binding.to2.text = "${intent.getIntExtra("from2",0)}"
+
+
+        binding.button2.setOnClickListener{
+            val returnIntent = Intent()
+            //입력된 문자열 intent에 put
+            returnIntent.putExtra("returnValue",binding.editText.text.toString())
+            
+            //setResult(상태값, 인텐트)
+            setResult(Activity.RESULT_OK,returnIntent)
+            finish()
+        }
+    }
+}
+```
+
+## 생명 주기
+
+|메서드|액티비티 상태|설명|
+|------|---|---|
+|OnCreate()|만들어짐|액티비티 실행됨|
+|OnStart()|화면에 나타남|화면에 보이기 시작|
+|OnResume()|현재 실행 중|실제 액티비티가 실행 중|
+|OnPause()|화면 가려짐|액티비티 일부가 다른 액티비티에 가려짐|
+|OnStop()|화면 없어짐|다른 액티비티가 실행되어서 화면이 완전히 가려짐|
+|OnDestroy()|종료됨|액티비티가 종료됨|
