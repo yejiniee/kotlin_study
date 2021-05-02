@@ -288,4 +288,71 @@ class 커스텀어댑터: RecyclerView.Adapter<뷰홀더> {
 * 모든 뷰는 컨텍스트를 가지고 있다. binding.root또한 뷰이기 때문에 binding.root.context형태로 사용가능
 ----
 
+## Fragment
+
+* 화면을 분할해서 독립적인 코드로 구성할 수 있게 도와줌
+* 화면(뷰)이 하나만 필요할 때는 프래그먼트 사용X, 프래그먼트도 하나의 모듈로써 동작한다.
+
+### Fragment 액티비티에 추가하기
+
+* build.gradle에 viewBinding설정
+
+#### List Fragment 만들기
+* Fragment는 하나의 뷰로 동작하기 때문에 액티비티안에 뷰를 삽입할 수 있는 레이아웃을 준비해야한다
+
+![image](https://user-images.githubusercontent.com/27190776/116806944-46a4fc00-ab6b-11eb-92aa-b9295d112608.png)
+
+#### 액티비티에 Fragment추가
+* 액티비티에 프래그먼트를 삽입하기 위해서는 프래그먼트 매니저를 통해 삽입할 레이아웃의 id를 지정.
+* 프래그먼트 삽입과정은 하나의 트랜잭션으로 관리되기 때문에 트랜잭션 매니저를 통해 begin transaction > add fragment > commit transaction 순서로 처리됨
+* 트랜잭선 : 여러 개의 의존성 동작을 한 번에 실행시, 중간에 하나라도 잘못되면 모든 동작을 복구하는 작업단위
+
+![image](https://user-images.githubusercontent.com/27190776/116806927-2bd28780-ab6b-11eb-83e5-5fafa06f99c2.png)
+
+#### 레이아웃에서 Fragment 추가하기
+
+* fragment컨테이너를 사용해 레이아웃 파일에서 위젯처럼 프래그먼트 추가.
+
+![image](https://user-images.githubusercontent.com/27190776/116807200-ce3f3a80-ab6c-11eb-9783-6fa117ed103b.png)
+
+----
+
+### Fragment 화면 전환
+
+#### 상세프래그먼트 만들기
+* New - Fragment - Fragment(Blank) - 이름 DetailFragment로 수정
+
+![image](https://user-images.githubusercontent.com/27190776/116807360-c633ca80-ab6d-11eb-956b-d0a1023b6023.png)
+
+#### 메인 액티비티에 두 프래그먼트 연결
+* 프래그먼트를 메인 액티비티에서 생서하고, 프래그먼트를 담는 레이아웃도 메인 액티비티에 있으므로 화면전환을 위한 코드는 메인 액티비티에 작성
+
+![image](https://user-images.githubusercontent.com/27190776/116807645-4444a100-ab6f-11eb-853e-0b7555164e23.png)
+
+
+#### ListFragment.kt 코드 수정
+* onAttach()를 통해 코드를 전달 받음
+
+![image](https://user-images.githubusercontent.com/27190776/116808201-799ebe00-ab72-11eb-8075-9fdf95e7b961.png)
+
++ flase 를 false로 고쳐도 안됨.
+
+![image](https://user-images.githubusercontent.com/27190776/116808382-56c0d980-ab73-11eb-8b60-514e24a4069b.png)
+
+----
+
+### 프래그먼트로 값 전달하기
+
+* 프래그먼트 생성시 값 전달
+* 이미 생성되어 있는 프래그먼트에 값 전달
+
+#### 프래그먼트 생성시 값 전달
+* arguments 이용.
+
+![image](https://user-images.githubusercontent.com/27190776/116809730-7c9dac80-ab7a-11eb-9930-f03350e76884.png)
+
+![image](https://user-images.githubusercontent.com/27190776/116809739-88896e80-ab7a-11eb-992e-61b9fc72fdc0.png)
+
+
+#### 생성된(화면에 보이는) 프래그먼트에 값 전달하기
 
