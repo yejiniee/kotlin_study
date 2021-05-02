@@ -39,13 +39,15 @@
 - textStyle: 텍스트 스타일 지정. normal, bold, italic 세가지가 있음.
 
 - maxLines, minLines: 입력가능한 줄 수 설정하기
+
 maxLines: 최대 입력 가능한 줄 수 설정. 그 이상은 출력되지 않는다.
+
 minLines: 최소 줄 수를 미리 설정해두어 글자의 입력여부와 관계없이 최소 공간을 미리 마련해둠
 
 - singleLine: 텍스트가 여러 줄이 있을 때 한줄로 보여줌
 
-- ellipsize: 말줄임표시하기
-maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정함   
+- ellipsize: 말줄임표시하기. maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정함   
+
 -none: 설정하지 않는다   
 
 -start: 첫부분 말줄임표   
@@ -58,6 +60,7 @@ maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정
 
 - fontFamily: 텍스트 글꼴 지정
 - ems: 비율로 글꼴 크기 지정
+
 텍스트뷰의 크기를 나타낼 때 현재 글꼴의 크기를 기준으로 설정하는 상대값. ex) 현재 설정된 크기가 12sp라면, 1em=12sp, 2em=24sp
 
 - lines: 텍스트뷰 높이 고정. 텍스트가 늘어나거나 줄어들어도 공간은 변하지 않음.
@@ -86,7 +89,8 @@ maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정
 |date|날짜 형식|
 
 - imeOptions: 이벤트 설정하기
-입력 왼료 후 실행할 이벤트를 설정. Ime(imput method editor): 텍스트 편집기
+- 
+입력 완료 후 실행할 이벤트를 설정. Ime(imput method editor): 텍스트 편집기
 
 ## 이미지버튼
 *버튼과 이미지버튼의 차이*
@@ -102,6 +106,7 @@ maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정
 -새로운 이미지 사용
 
 원하는 이미지를 drawable 디렉터리에 드래그 앤 드롭 한 뒤 drawable 뒤의 -v24를 지우고 저장 한 뒤 src에서 다시 이미지 선택
+
 <img width="678" alt="git_2" src="https://user-images.githubusercontent.com/80842764/116808068-d6e63f80-ab71-11eb-891c-6c000db460fb.PNG">
 
 - scaleType: 이미지 크기 설정하기
@@ -119,6 +124,7 @@ maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정
 
 - tint: 이미지 영역에 색 채우기
 - alpha: 투명도 조절
+
 1~0사이의 값을 입력. 1: 불투명, 0: 투명
 
 ## 라디오그룹과 라디오버튼
@@ -126,14 +132,16 @@ maxLine 속성이 1이거나, 문자열이 길어서 글자가 잘릴 때 설정
 
 <img width="171" alt="git_3" src="https://user-images.githubusercontent.com/80842764/116808571-7573a000-ab74-11eb-8ae1-3f9afa06cf92.PNG"> , <img width="191" alt="git_4" src="https://user-images.githubusercontent.com/80842764/116808642-e4e98f80-ab74-11eb-9d8b-6258251ef78c.PNG">
 - orientation: 라디오 버튼 배치하기
+
 선택지를 가로로 정렬할 건지 세로로 정렬할 건지 결정
+
 - checkedButton: 미리 선택된 라디오버튼 설정하기
 
 ## 체크박스
+
 여러개를 한번에 선택할 때 사용
 
 <img width="173" alt="git_5" src="https://user-images.githubusercontent.com/80842764/116808729-6f31f380-ab75-11eb-8820-53142d5aff73.PNG">
-
 
 기본적으로 1개의 위젯당 1개의 리스너를 달아줘야하지만 공통으로 사용되는 리스너 1개만 구현해서 사용가능
 
