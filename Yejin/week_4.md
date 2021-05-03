@@ -20,3 +20,19 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
+*액티비티 사이에 값 주고받기
+```kotlin
+class SubActivity : AppCompatActivity() {
+    val binding by lazy { ActivitySubBinding.inflate(layoutInflater) }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        binding.to1.text=intent.getStringExtra("from1")
+        binding.to2.text="${intent.getIntExtra("from2",0)}" //텍스트뷰의 text 속성은 문자열만 받을 수 있기 때문에 ${}을 사용해 문자열로 바꿔줌
+
+    }
+}
+
+```
+
