@@ -2,8 +2,7 @@
 ## 인텐트
 액티비티를 실행하기 위해선 기본적으로 인텐트가 필요하다.
 
-*액티비티 전환하기
-
+#### 액티비티 전환하기
 패키지명 우클릭->[New]->[Activity]->[Empty Activity]->서브 액티비티 생성
 
 ```kotlin
@@ -20,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-*액티비티 사이에 값 주고받기
+#### 액티비티 사이에 값 주고받기
 ```kotlin
 class SubActivity : AppCompatActivity() {
     val binding by lazy { ActivitySubBinding.inflate(layoutInflater) }
@@ -35,4 +34,14 @@ class SubActivity : AppCompatActivity() {
 }
 
 ```
+
+#### 메인액티비티에서 값 돌려받기
+서브액티비티가 종료되면 메인 액티비티로 값을 돌려주는 코드
+
+```kotlin
+
+
+```
+
+
 
