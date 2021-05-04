@@ -138,3 +138,138 @@ intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 |FLAG_ACTIVITY_SINGLE_TOP|호출되는 액티비티가 Top에 있으면 해당 액티비티를 다시 생성하지 않고 존재하던 액티비티를 다시 사용한다.|
 
 # 컨테이너: 목록만들기
+## 스피너 (Spinner)
+여러개의 목록 중에 하나를 선택할 수 있는 선택도구. 스피너의 내부는 복수의 데이터를 처리할 수 있는 컨테이너 구조로 되어있다.
+
+#### 스피너로 보는 어댑터의 동작 구조
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        var data = listOf("- 선택하세요 -","1월","2월","3월","4월","5월","6월")
+        var adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, data)
+        binding.spinner.adapter=adapter //어댑터를 스피너에 연결
+        //스피너를 선택하면 선택결과를 보여주는 코드
+        binding.spinner.onItemSelectedListener=object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                binding.result.text=data.get(position)
+            }
+        }
+    }
+}
+}
+```
+<img width="160" alt="git_1" src="https://user-images.githubusercontent.com/80842764/116974507-33c03200-acf9-11eb-9ad4-d82e823f981a.PNG">,   <img width="165" alt="git_2" src="https://user-images.githubusercontent.com/80842764/116974402-0b383800-acf9-11eb-9edc-5e94f93fcfe5.PNG">
+
+선택 전 -----------------> 선택 후
+
+## 리사이클러뷰
+목록을 표시하는 컨테이너. 리사이클러뷰는 리사이클러어댑터라는 메서드 어댑터를 사용해 데이터를 연결한다.
+
+#### 리사이클러뷰 
+>MainActivity.kt
+```kotlin
+
+class MainActivity : AppCompatActivity() {
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        fun loadData():MutableList<Memo>{
+            val data: MutableList<Memo> = mutableListOf()
+
+            for(no in 1..100){
+                val title ="이것이 코틀린 안드로이드다 ${no+1}"
+                val date = System.currentTimeMillis()
+                var memo=Memo(no, title, date)
+                data.add(memo)
+            }
+            return data;
+        }
+
+        val data:MutableList<Memo> = loadData()
+        var adapter = CustomAdapter()
+        adapter.listData = data
+        binding.recyclerView2.adapter =adapter
+        binding.recyclerView2.layoutManager=LinearLayoutManager(this)
+
+    }
+}
+```
+
+> CustomAdapter.kt
+```kotlin
+
+class CustomAdapter : RecyclerView.Adapter<Holder>(){
+    var listData = mutableListOf<Memo>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = ItemRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return Holder(binding)
+    }
+    override fun getItemCount(): Int {
+        return listData.size
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        val memo = listData.get(position)
+        holder.setMemo(memo)
+    }
+}
+
+class Holder(val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun setMemo(memo : Memo){
+        binding.textNo.text = "${memo.no}"
+        binding.textTitle.text=memo.title
+
+        var sdf =SimpleDateFormat("yyyy/MM/dd")
+        var formattedDate = sdf.format(memo.timestamp)
+        binding.textDate.text=formattedDate
+    }
+}
+```
+<img width="172" alt="git_3" src="https://user-images.githubusercontent.com/80842764/116982862-50ae3280-ad04-11eb-855a-73b292e4591d.PNG">
+
+#### 레이아웃 매니저의 종류
+* LinearLayoutManager
+```kotlin
+///세로스크롤
+LinearLayoutManager(this)
+
+///가로스크롤
+LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) //두번째 파라미터: 가로 스크롤 옵션 설정
+```
+* GridLayoutManager
+```kotlin
+GridLayoutManager(this, 3) // ->한 줄에 3개의 아이템을 표시
+```
+* StaggeredGridLayoutManager
+```kotlin
+///세로스크롤
+StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)  // ->한 줄에 3개의 아이템을 표시
+
+///가로스크롤
+StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL)
+```
+
+#### 목록 클릭 이벤트 처리
+
+> CustomAdapter.kt의 class Holder에 추가
+```kotlin
+init {
+        binding.root.setOnClickListener{
+            Toast.makeText(binding.root.context, "클릭된 아이템 = ${binding.textTitle.text}", Toast.LENGTH_LONG).show()
+        }
+}
+    
+```
