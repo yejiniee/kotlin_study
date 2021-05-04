@@ -148,3 +148,136 @@ class SubActivity : AppCompatActivity() {
 |OnPause()|화면 가려짐|액티비티 일부가 다른 액티비티에 가려짐|
 |OnStop()|화면 없어짐|다른 액티비티가 실행되어서 화면이 완전히 가려짐|
 |OnDestroy()|종료됨|액티비티가 종료됨|
+
+## 스피너
+: 내부적으로 복수의 데이터 처리 가능
+
+<img src = "https://user-images.githubusercontent.com/50178026/117013104-85cd7b80-ad2a-11eb-9d03-b5893398a716.png" height="550" width="300">
+
+> MainActivity.kt
+```kotlin
+class MainActivity : AppCompatActivity() {
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        var data = listOf("-선택-","1월","2월","3월","4월","5월","6월")
+        //ArrayAdapter<>(스피너를 화면에 그리기 위한 컨텍스트, 스피너에 보여줄 목록이 그려질 레이아웃, 어댑터에서 사용할 데이터)
+        var adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,data)
+        binding.spinner.adapter = adapter
+
+        binding.spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                binding.result.text=data.get(position)
+            }
+        }
+
+    }
+}
+```
+
+## 리사이클러뷰
+
+<img src="https://user-images.githubusercontent.com/50178026/117020013-f9728700-ad30-11eb-97c2-1db3868be5c7.png" height="550" width="300">
+
+> MainActivity.kt
+```kotlin
+class MainActivity : AppCompatActivity() {
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        fun loadData(): MutableList<Memo>{
+            val data:MutableList<Memo> = mutableListOf()
+            for (no in 1..50){
+                val title = "이것이 코틀린 안드로이드다 ${no+1}"
+                val date = System.currentTimeMillis()
+                var memo = Memo(no,title,date)
+                data.add(memo)
+            }
+            return data;
+        }
+
+        //data 입력
+        val data:MutableList<Memo> = loadData()
+
+        //data adapter에 넣음
+        var adapter= CustomAdapter()
+        adapter.listData = data
+
+        binding.recyclerView.adapter= adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+    }
+}
+```
+
+> CustomAdapter.kt
+```kotlin
+class CustomAdapter : RecyclerView.Adapter<Holder>(){
+    var listData = mutableListOf<Memo>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val binding = ItemRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return Holder(binding)
+    }
+    override fun getItemCount(): Int {
+        return listData.size
+    }
+
+    override fun onBindViewHolder(holder: Holder, position: Int) {
+        val memo = listData.get(position)
+        holder.setMemo(memo)
+    }
+}
+
+class Holder(val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun setMemo(memo : Memo){
+        binding.textView.text = "${memo.no}"
+        binding.textView2.text=memo.title
+        // 형식 지정  
+        var sdf = SimpleDateFormat("yyyy/MM/dd")
+        var formattedDate = sdf.format(memo.timestamp)
+        binding.textView3.text=formattedDate
+    }
+}
+```
+
+> Memo.kt
+```kotlin
+data class Memo (var no: Int, var title:String, var timestamp: Long )
+```
+
+
+### 클릭 시 처리
+> CustomAdapter.kt
+```kotlin
+class Holder(val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding.root) {
+    /*
+    
+    */
+    
+    init{
+        binding.root.setOnClickListener{
+            Toast.makeText(binding.root.context, "클릭된 아이템 = ${binding.textView2.text}", Toast.LENGTH_LONG).show()
+        }
+    }
+}
+```
+
+### Layout Manager
+- LinearLayoutManager
+  - 세로: LinearLayoutManager(this)
+  - 가로: LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+- GridLayoutManager
+  - GridLayoutManager(this, 한 줄에 표시할 아이템 개수)
+- StaggeredGridLayoutManager
+  - 세로 스크롤: StaggeredGridLayoutManager(한 줄에 표시할 아이템 개수, StaggeredGridLayoutManager.VERTICAL)
+  - 가로 스크롤: StaggeredGridLayoutManager(한 줄에 표시할 아이템 개수, StaggeredGridLayoutManager.HORIZONTAL)
