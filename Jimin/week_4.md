@@ -1,6 +1,11 @@
 # Activity
 : 사용자가 직접 보고 입력하는 화면을 담당하는 컴포넌트
 
+- [Intent](https://github.com/jimin3263/kotlin_study/blob/main/Jimin/week_4.md#intent)
+- [Spinner](https://github.com/jimin3263/kotlin_study/blob/main/Jimin/week_4.md#%EC%8A%A4%ED%94%BC%EB%84%88)
+- [RecyclerView](https://github.com/jimin3263/kotlin_study/blob/main/Jimin/week_4.md#%EB%A6%AC%EC%82%AC%EC%9D%B4%ED%81%B4%EB%9F%AC%EB%B7%B0)
+- [Fragment](https://github.com/jimin3263/kotlin_study/blob/main/Jimin/week_4.md#fragment)
+
 ## Context
 - 시스템을 사용하기 위한 정보와 도구가 담겨 있는 클래스
 - 대부분 context는 컴포넌트 실행시 함께 생성, 생성된 컴포넌트가 가지고 있는 메서드를 호출해 각각의 도구 사용할 수 있음
@@ -281,3 +286,249 @@ class Holder(val binding: ItemRecyclerBinding) : RecyclerView.ViewHolder(binding
 - StaggeredGridLayoutManager
   - 세로 스크롤: StaggeredGridLayoutManager(한 줄에 표시할 아이템 개수, StaggeredGridLayoutManager.VERTICAL)
   - 가로 스크롤: StaggeredGridLayoutManager(한 줄에 표시할 아이템 개수, StaggeredGridLayoutManager.HORIZONTAL)
+
+
+## Fragment
+
+### 액티비티에 fragment 추가하기
+
+<img src="https://user-images.githubusercontent.com/50178026/117165546-8df7ea80-ae00-11eb-956f-2736c515052a.png" height="550" width="300">
+                                                                                                                                     
+> MainActivity.kt
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        setFragmnet()
+    }
+
+    fun setFragmnet(){
+        val listFragment: ListFragment = ListFragment()
+        // begin transaction
+        val transaction= supportFragmentManager.beginTransaction()
+        // add fragment
+        transaction.add(R.id.FrameLayout,listFragment)
+        // commit transaction
+        transaction.commit()
+    }
+}
+```
+
+### xml에서 프래그먼트 추가
+
+<img src="https://user-images.githubusercontent.com/50178026/117167764-820d2800-ae02-11eb-8a2f-5f575eecb3b3.png" height="550" width="300">
+
+- 이전과 같은 화면을 확인할 수 있다
+- 화면 전환이 없을 때 이 방법이 더 효율적!
+
+> activity_main.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/Activity_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:text="Activity"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.fragment.ListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        app:layout_constraintTop_toBottomOf="@+id/Activity_text"
+        tools:layout_editor_absoluteX="165dp"
+        tools:layout_editor_absoluteY="50dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+### 프래그먼트 전환
+
+<img src="https://user-images.githubusercontent.com/50178026/117173143-6f492200-ae07-11eb-825e-9b26ce10eea2.png" height="550" width="300"> <img src="https://user-images.githubusercontent.com/50178026/117173177-7839f380-ae07-11eb-9d9a-de9af0c83b00.png" height="550" width="300">
+
+> MainActivity.kt
+ ```kotlin
+ class MainActivity : AppCompatActivity() {
+
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        setFragmnet()
+
+    }
+
+    //Next 클릭 -> detailFragment
+    fun goDetail(){
+        val detailFragment = DetailFragment()
+
+        val transaction= supportFragmentManager.beginTransaction()
+        transaction.add(R.id.FrameLayout,detailFragment)
+        //뒤로가기 허
+        transaction.addToBackStack("detail")
+        transaction.commit()
+    }
+    //뒤로가기 클릭 -> ListFragment
+    fun goBack(){
+        onBackPressed()
+    }
+
+    fun setFragmnet(){
+        val listFragment: ListFragment = ListFragment()
+        // begin transaction
+        val transaction= supportFragmentManager.beginTransaction()
+        // add fragment
+        transaction.add(R.id.FrameLayout,listFragment)
+        // commit transaction
+        transaction.commit()
+    }
+
+}
+ ```
+> DetailFragment.kt
+```kotlin
+class DetailFragment : Fragment() {
+    var mainActivity: MainActivity? =null
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentDetailBinding.inflate(inflater,container,false)
+        binding.button.setOnClickListener{mainActivity?.goBack()}
+
+        return binding.root
+
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // context 캐스팅 -> MainActivity에 담음
+        mainActivity = context as MainActivity
+    }
+
+}
+```
+> ListFragment.kt
+```kotlin
+class ListFragment : Fragment() {
+    var mainActivity: MainActivity? = null
+
+    // 리사이클러의 onCreateViewHolder() 메서드와 유사
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        //inflater로 생성한 뷰 담아두고, binding해온 view내에 버튼에 리스터 등록
+       val binding = FragmentListBinding.inflate(inflater,container,false)
+        binding.button.setOnClickListener{mainActivity?.goDetail()}
+
+        return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // context 캐스팅 -> MainActivity에 담음
+        mainActivity = context as MainActivity
+    }
+}
+```
+
+- 겹치기 때문에 Background color 설정해줘야 함 
+
+
+### 프래그먼트로 값 전달
+
+<img src ="https://user-images.githubusercontent.com/50178026/117175608-fe573980-ae09-11eb-8fda-88d189414fd7.png" width = "300" height = "550">
+
+> MainActivity.kt
+```kotlin
+ fun setFragmnet(){
+        val listFragment: ListFragment = ListFragment()
+
+        var bundle = Bundle()
+        bundle.putString("k1","안녕")
+        
+        
+        listFragment.arguments = bundle
+        // begin transaction
+        val transaction= supportFragmentManager.beginTransaction()
+        // add fragment
+        transaction.add(R.id.FrameLayout,listFragment)
+        // commit transaction
+        transaction.commit()
+    }
+```
+
+> ListFragmnet.kt
+```kotlin
+verride fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+       val binding = FragmentListBinding.inflate(inflater,container,false)
+        binding.button.setOnClickListener{mainActivity?.goDetail()}
+
+        val title = arguments?.getString("k1")
+
+        binding.textView.text= title
+
+        return binding.root
+    }
+```
+
+### 프래그먼트의 생명주기
+
+#### 생성 주기
+- onAttach()
+  - commit 되는 순간 호출
+  - 파라미터로 전달되는 context를 저장해 놓고 사용하거나 context로부터 상위 액티비티 꺼내서 사용
+- onCreate()
+  - 프래그먼트 생성될 때 호출
+  - 변수 초기화할 때 사용
+- onCreateView()
+  - 사용자 인터페이스 관련된 뷰 초기화
+- onStart()
+  - 화면에서 사라졌다가 다시 나타날 때 호출
+  - 화면 생성 후, 화면에 입력될 값 초기화하는 용도
+- onResume()
+  - onPause() 상태에서 멈추고 바로 호출
+
+#### 소멸 주기
+- onPause()
+  - 프래그먼트가 화면에서 사라지면 호출
+  - 일시정지
+- onStop()
+  - 프래그먼트가 일부분이라도 보이면 onStop()은 호출 안함
+  - 정지
+- onDestroyView()
+  - 뷰의 초기화 해제
+  - onCreateView()에서 생성한 View 모두 소멸
+- onDestroy
+  - 액티비티에는 남아있지만 프래그먼트 자체는 소멸
+  - 모든 자원 해제
+- onDetach()
+  - 액티비티에서 연결 해제
