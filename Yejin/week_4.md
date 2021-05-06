@@ -288,6 +288,7 @@ init {
 ## 액티비티에 프래그먼트 추가하기
 프래그먼트는 단독으로 사용되지 않고 액티비티의 일부로 사용된다.
 > ListFragment.kt
+
 [New]->[Fragment]->Fragment(Blank)->fragnent name: ListFragment
 
 ```kotlin
@@ -320,7 +321,193 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
-####레이아웃에서 프래그먼트 추가하기
+<img width="450" alt="git_1" src="https://user-images.githubusercontent.com/80842764/117291605-2d24ec80-aeaa-11eb-85f3-1fbf1063e4fa.PNG">,  <img width="163" alt="git_2" src="https://user-images.githubusercontent.com/80842764/117291632-357d2780-aeaa-11eb-9b3c-e2ac8a96d542.PNG">
+
+
+#### 레이아웃에서 프래그먼트 추가하기
 
 fragment 컨테이너를 사용하면 소스코드를 거치지 않고 레이아웃 파일에서도 위젯처럼 프래그먼트를 추가할 수 있다.
--> <Fragment></Fragment>
+
+```kotlin
+<Fragment></Fragment>
+```
+
+#### 프래그먼트 화면전환
+
+> MainActivity.kt
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+    val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        setFragment()
+    }
+
+    fun goDetail(){
+        val detailFragment=DetailFragment()
+        val transaction=supportFragmentManager.beginTransaction() //프래그먼트를 레이아웃에 추가
+        transaction.add(R.id.frameLayout, detailFragment)
+        transaction.addToBackStack(("detail")) //뒤로가기 버튼
+        transaction.commit()
+    }
+    fun goBack(){
+        onBackPressed()
+    }
+
+    fun setFragment(){
+        val listFragment: ListFragment= ListFragment()
+        val transaction=supportFragmentManager.beginTransaction() //프래그먼트를 레이아웃에 추가
+        transaction.add(R.id.frameLayout, listFragment)
+        transaction.commit()
+    }
+}
+```
+
+> ListFragment.kt
+```kotlin
+class ListFragment : Fragment() {
+
+    var mainActivity: MainActivity?= null
+    val binding by lazy { FragmentListBinding.inflate(layoutInflater) }
+
+    override fun onCreateView( //액티비티가 프래그먼트를 요청하면 onCreateView()를 통해 뷰를 만들어서 보여줌
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentListBinding.inflate(inflater, container, false)
+        binding.btnNext.setOnClickListener { mainActivity?.goDetail()}
+        return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        mainActivity=context as MainActivity
+    }
+}
+```
+
+> DetailFragment.kt
+
+```kotlin
+class DetailFragment : Fragment() {
+
+    var mainActivity:MainActivity?=null
+    val binding by lazy { FragmentDetailBinding.inflate(layoutInflater) }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentDetailBinding.inflate(inflater,container,false)
+        binding.btnBack.setOnClickListener{mainActivity?.goBack()}
+        return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        mainActivity=context as MainActivity
+    }
+}
+```
+
+<img width="174" alt="git_3" src="https://user-images.githubusercontent.com/80842764/117295571-f8676400-aeae-11eb-87a5-b0c7c0100d77.PNG">,   <img width="177" alt="git_4" src="https://user-images.githubusercontent.com/80842764/117295596-01f0cc00-aeaf-11eb-8f80-a3c43c349390.PNG">
+
+
+## 프래그먼트로 값 전달하기
+
+> 프래그먼트 생성 시 값 전달하기
+
+* arguments를 사용
+```kotlin
+val listFragment: ListFragment = ListFragment() //액티비티에서 프래그먼트로 값을 전달하기 위해 프래그먼트 생성
+var bundle = Bundle()
+bundle.putString("key1", "List Fragment")
+bindle.putInt("key2", 20210506)// bundle 생성 후 전달할 값 담기
+listFragment.arguments=bundle 값이 담긴 번들을 프래그먼트의 arguments에 담기
+
+val transaction = supportfragmentManager.beginTransaction() //프래그먼트 매니저를 통해 프래그먼트를 삽입-> 값 전달 완료
+transaction.ad(R.id.frameLayoutm listFragment)
+transaction.commit()
+
+override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    val title = arguments?.getString("key1")
+    val value = arguments?.getInt("key2")
+}
+```
+> 이미 생성되어있는 프래그먼트에 값 전달하기
+
+프래그먼트에 메서드를 정의하고 직접 호출한다.
+
+```kotlin
+fun setValue(파라미터){
+...
+}
+
+fragment.setValue(값)
+```
+
+> 프래그먼트에서 프래그먼트로 값 전달하기
+
+프래그먼트를 생성한액티비티에 값을 전달할 메서드를 미리 생성해두고 사용한다.
+
+* 프래그먼트 A에서 B로 값을 전달할 경우
+
+프래그먼트 A에서 passValue(값)를 호출하면 액티비티가 대신해서 프래그먼트 B의 recieveValue()를 호출한다.
+
+```kotlin
+//Fragment A
+activity.passValue(값)
+
+//액티비티
+fun passValue(파라미터) {
+    fragmentB.recieveValue(파라미터)}
+}
+
+//Fragment B
+fun recieveValue(파라미터){
+}
+```
+
+## 프래그먼트의 생명 주기 관리
+
+#### 생명주기 메서드
+
+1. onAttatch()
+프래그먼트 매니저를 통해 액티비티에 프래그먼트가 추가되고 commit 되는 순간 호출된다. 소스코드에서 var fragment  = Fragment() 형태로 생성자를 호출하는 순간에는 호출되지 않는다.
+
+2. onCreate()
+프래그먼트가 생성됨과 동시에 호출된다. 사용자 인터페이스인 뷰와 관련된 것을 제외한 프래그먼트 자원(주로 변수)를 초기화할 때 사용
+
+3. onCreateView()
+사용자 인터페이스와 관련된 뷰를 초기화하기 위해 사용
+
+4. onStart()
+프래그먼트가 새로 add되거나 화면에서 사라졌다가 다시 나타나면 onCreateView()는 호출되지 않고 onStart()만 호출된다.
+주로 화면 생성 후에 화면에 입력될 값을 초기화하는 용도로 사용
+
+5. onResume()
+onStart()와 같은 용도로 사용. 다른 점은 소멸 주기 메서드가 onPause() 상태에서 멈췄을 때는 onStart()를 거치지 않고 onResume()이 바로 호출된다.
+
+#### 소멸주기 메서드
+
+1. onPause()
+현재 프래그먼트가 화면에서 사라지면 호출된다. 현재 작업을 잠시 멈추는 용도로 사용 ex)동영상 플레이어 일시정지
+
+2. onStop()
+현재 프래그먼트가 화면에서 일부분이라도 보이면 onStop()은 호출되지 않는다. 예를 들어 add되는 새로운 프래그먼트가 반투명하면 현재 프래그먼트의 생명주기 메서드는 onPause까지만 호출된다.
+ex)동영상 플레이어 정지
+
+3. onDestroyView()
+뷰의 초기화를 해제하는 용도로 사용된다. onCreateView에서 인플레이터로 생성한 view가 모두 소멸된다.
+
+4. onDestroy()
+액티비티에는 아직 남아있지만 프래그먼트 자체는 소멸된다. 프래그먼트에 연결된 모든 자원의 연결을 해제하는 용도로 사용.
+
+5. onDetach()
+액티비티에서 연결이 해제된다.
+
