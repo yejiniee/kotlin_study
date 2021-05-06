@@ -285,3 +285,42 @@ init {
 여러개의 섹션들 한 화면에 나타낼 때 사용
 
 
+## 액티비티에 프래그먼트 추가하기
+프래그먼트는 단독으로 사용되지 않고 액티비티의 일부로 사용된다.
+> ListFragment.kt
+[New]->[Fragment]->Fragment(Blank)->fragnent name: ListFragment
+
+```kotlin
+class ListFragment : Fragment() {
+
+    override fun onCreateView( //액티비티가 프래그먼트를 요청하면 onCreateView()를 통해 뷰를 만들어서 보여줌
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_list, container, false)
+    }
+}
+```
+
+>MainActivity.kt
+```kotlin
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        setFragment()
+    }
+
+    fun setFragment(){
+        val listFragment: ListFragment= ListFragment()
+        val transaction=supportFragmentManager.beginTransaction() 
+        transaction.add(R.id.frameLayout, listFragment) //프래그먼트를 레이아웃에 추가
+        transaction.commit()
+    }
+}
+```
+####레이아웃에서 프래그먼트 추가하기
+
+fragment 컨테이너를 사용하면 소스코드를 거치지 않고 레이아웃 파일에서도 위젯처럼 프래그먼트를 추가할 수 있다.
+-> <Fragment></Fragment>
